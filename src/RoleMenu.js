@@ -1,0 +1,61 @@
+import React, { useState } from 'react';
+
+function RoleMenu({ onSelectionChange = () => {} }) {
+  const [selectedRole, setSelectedRole] = useState('');
+
+  const handleOptionChange = (event) => {
+    const value = event.target.value;
+    setSelectedRole(value);
+    onSelectionChange(value); // Send role to App
+  };
+
+  return (
+    <div>
+{/*       <label>
+        <input
+          type="radio"
+          name="role"
+          value="Foster"
+          checked={selectedRole === 'Foster'}
+          onChange={handleOptionChange}
+        />
+        Foster
+      </label>
+ */}      <label>
+        <input
+          type="radio"
+          name="role"
+          value="Owner"
+          checked={selectedRole === 'Owner'}
+          onChange={handleOptionChange}
+        />
+        Owner
+      </label>
+
+{/*       <label>
+        <input
+          type="radio"
+          name="role"
+          value="Staff"
+          checked={selectedRole === 'Staff'}
+          onChange={handleOptionChange}
+        />
+        Staff
+      </label>
+ */}
+{/*       <label>
+        <input
+          type="radio"
+          name="role"
+          value="Vet"
+          checked={selectedRole === 'Vet'}
+          onChange={handleOptionChange}
+        />
+        Vet
+      </label>
+ */}
+    </div>
+  );
+}
+
+export default RoleMenu;
