@@ -11,7 +11,18 @@ function RoleMenu({ onSelectionChange = () => {} }) {
 
   return (
     <div>
-{/*       <label>
+      <label>
+        <input
+          type="radio"
+          name="role"
+          value="Donor"
+          checked={selectedRole === 'Donor'}
+          onChange={handleOptionChange}
+        />
+        Donor
+      </label>
+
+      <label>
         <input
           type="radio"
           name="role"
@@ -21,7 +32,7 @@ function RoleMenu({ onSelectionChange = () => {} }) {
         />
         Foster
       </label>
- */}      <label>
+      <label>
         <input
           type="radio"
           name="role"
@@ -32,7 +43,7 @@ function RoleMenu({ onSelectionChange = () => {} }) {
         Owner
       </label>
 
-{/*       <label>
+      <label>
         <input
           type="radio"
           name="role"
@@ -42,8 +53,8 @@ function RoleMenu({ onSelectionChange = () => {} }) {
         />
         Staff
       </label>
- */}
-{/*       <label>
+
+      <label>
         <input
           type="radio"
           name="role"
@@ -53,7 +64,7 @@ function RoleMenu({ onSelectionChange = () => {} }) {
         />
         Vet
       </label>
- */}
+
     </div>
   );
 }

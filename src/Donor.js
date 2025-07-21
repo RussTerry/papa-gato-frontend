@@ -3,27 +3,27 @@ import Person from './Person';
 import PersonForm from './PersonForm';
 import SelectList from './SelectList';
 
-const Owner = ({ action }) => {
-  const [owners, setOwners] = useState([]);
+const Donor = ({ action }) => {
+  const [donors, setDonors] = useState([]);
   const [formData, setFormData] = useState({ ...Person });
-  const [selectedOwnerId, setSelectedOwnerId] = useState(null);
+  const [selectedDonorId, setSelectedDonorId] = useState(null);
   const firstNameRef = useRef(null);
 
-  const selectedOwner = owners.find((o) => o.id === selectedOwnerId) || null;
+  const selectedDonor = donors.find((o) => o.id === selectedDonorId) || null;
 
   useEffect(() => {
   if (action === 'create') {
     setFormData({ ...Person });
-    setSelectedOwnerId(null);
+    setSelectedDonorId(null);
     firstNameRef.current?.focus();
-  } else if ((action === 'update' || action === 'delete') && selectedOwner) {
-    setFormData({ ...selectedOwner });
+  } else if ((action === 'update' || action === 'delete') && selectedDonor) {
+    setFormData({ ...selectedDonor });
   }
-}, [action, selectedOwnerId, selectedOwner]);
+}, [action, selectedDonorId, selectedDonor]);
 
 useEffect(() => {
   setFormData({ ...Person });         // Clear the form
-  setSelectedOwnerId(null);           // Clear selected row
+  setSelectedDonorId(null);           // Clear selected row
   firstNameRef.current?.focus();      // Set focus to first field (create only)
 }, [action]);
 
@@ -35,34 +35,34 @@ useEffect(() => {
   
   const handleAdd = () => {
     if (formData.firstName.trim()) {
-      setOwners((prev) => [...prev, { ...formData, id: Date.now() }]);
+      setDonors((prev) => [...prev, { ...formData, id: Date.now() }]);
       setFormData({ ...Person });
       firstNameRef.current?.focus();
     }
   };
 
   const handleUpdate = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) =>
-      prev.map((owner) =>
-        owner.id === selectedOwnerId ? { ...formData, id: selectedOwnerId } : owner
+    if (!selectedDonorId) return;
+    setDonors((prev) =>
+      prev.map((donor) =>
+        donor.id === selectedDonorId ? { ...formData, id: selectedDonorId } : donor
       )
     );
-    setSelectedOwnerId(null);
+    setSelectedDonorId(null);
     setFormData({ ...Person });
   };
 
   const handleDelete = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) => prev.filter((owner) => owner.id !== selectedOwnerId));
-    setSelectedOwnerId(null);
+    if (!selectedDonorId) return;
+    setDonors((prev) => prev.filter((donor) => donor.id !== selectedDonorId));
+    setSelectedDonorId(null);
     setFormData({ ...Person });
   };
 
 
   return (
     <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Owner Module</h2>
+      <h2>Donor Module</h2>
 
       {/* CREATE */}
       {action === 'create' && (
@@ -78,54 +78,54 @@ useEffect(() => {
       {/* READ */}
       {action === 'read' && (
         <div>
-          <h3>Owner List</h3>
+          <h3>Donor List</h3>
             <SelectList 
-              items={owners}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={donors}
+              labelFn={(donor) => `${donor.firstName} ${donor.lastName} - ${donor.address}, ${donor.email}, ${donor.phone}, ${donor.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - List to select from */}
-      {action === 'update' && !selectedOwnerId && (
+      {action === 'update' && !selectedDonorId && (
         <div>
-          <h3>Select an Owner to Update</h3>
+          <h3>Select an Donor to Update</h3>
             <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={donors}
+              onSelect={(id) => setSelectedDonorId(id)}
+              labelFn={(donor) => `${donor.firstName} ${donor.lastName} - ${donor.address}, ${donor.email}, ${donor.phone}, ${donor.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - Form to update selected */}
-      {action === 'update' && selectedOwnerId && (
+      {action === 'update' && selectedDonorId && (
         <PersonForm
           formData={formData}
           handleChange={handleChange}
           handleSubmit={handleUpdate}
           firstFieldRef={firstNameRef}
           action="Update"
-          role="Ownere"
+          role="Donore"
         />
       )}
 
       {/* DELETE - Select and Confirm */}
-      {action === 'delete' && !selectedOwnerId && (
+      {action === 'delete' && !selectedDonorId && (
         <div>
-          <h3>Select an Owner to Delete</h3>
+          <h3>Select an Donor to Delete</h3>
             <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={donors}
+              onSelect={(id) => setSelectedDonorId(id)}
+              labelFn={(donor) => `${donor.firstName} ${donor.lastName} - ${donor.address}, ${donor.email}, ${donor.phone}, ${donor.notes}`}
               action={action}
             />
        </div>
       )}
 
-      {action === 'delete' && selectedOwnerId && (
+      {action === 'delete' && selectedDonorId && (
         <div>
           <PersonForm
             formData={formData}
@@ -135,7 +135,7 @@ useEffect(() => {
             action="Confirm Delete"
             readOnly={true}
           />
-          <p>Are you sure you want to delete this owner?</p>
+          <p>Are you sure you want to delete this donor?</p>
           <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
@@ -143,4 +143,4 @@ useEffect(() => {
   );
 };
 
-export default Owner;
+export default Donor;

@@ -3,27 +3,27 @@ import Person from './Person';
 import PersonForm from './PersonForm';
 import SelectList from './SelectList';
 
-const Owner = ({ action }) => {
-  const [owners, setOwners] = useState([]);
+const Staff = ({ action }) => {
+  const [staffs, setStaffs] = useState([]);
   const [formData, setFormData] = useState({ ...Person });
-  const [selectedOwnerId, setSelectedOwnerId] = useState(null);
+  const [selectedStaffId, setSelectedStaffId] = useState(null);
   const firstNameRef = useRef(null);
 
-  const selectedOwner = owners.find((o) => o.id === selectedOwnerId) || null;
+  const selectedStaff = staffs.find((o) => o.id === selectedStaffId) || null;
 
   useEffect(() => {
   if (action === 'create') {
     setFormData({ ...Person });
-    setSelectedOwnerId(null);
+    setSelectedStaffId(null);
     firstNameRef.current?.focus();
-  } else if ((action === 'update' || action === 'delete') && selectedOwner) {
-    setFormData({ ...selectedOwner });
+  } else if ((action === 'update' || action === 'delete') && selectedStaff) {
+    setFormData({ ...selectedStaff });
   }
-}, [action, selectedOwnerId, selectedOwner]);
+}, [action, selectedStaffId, selectedStaff]);
 
 useEffect(() => {
   setFormData({ ...Person });         // Clear the form
-  setSelectedOwnerId(null);           // Clear selected row
+  setSelectedStaffId(null);           // Clear selected row
   firstNameRef.current?.focus();      // Set focus to first field (create only)
 }, [action]);
 
@@ -35,34 +35,34 @@ useEffect(() => {
   
   const handleAdd = () => {
     if (formData.firstName.trim()) {
-      setOwners((prev) => [...prev, { ...formData, id: Date.now() }]);
+      setStaffs((prev) => [...prev, { ...formData, id: Date.now() }]);
       setFormData({ ...Person });
       firstNameRef.current?.focus();
     }
   };
 
   const handleUpdate = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) =>
-      prev.map((owner) =>
-        owner.id === selectedOwnerId ? { ...formData, id: selectedOwnerId } : owner
+    if (!selectedStaffId) return;
+    setStaffs((prev) =>
+      prev.map((staff) =>
+        staff.id === selectedStaffId ? { ...formData, id: selectedStaffId } : staff
       )
     );
-    setSelectedOwnerId(null);
+    setSelectedStaffId(null);
     setFormData({ ...Person });
   };
 
   const handleDelete = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) => prev.filter((owner) => owner.id !== selectedOwnerId));
-    setSelectedOwnerId(null);
+    if (!selectedStaffId) return;
+    setStaffs((prev) => prev.filter((staff) => staff.id !== selectedStaffId));
+    setSelectedStaffId(null);
     setFormData({ ...Person });
   };
 
 
   return (
     <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Owner Module</h2>
+      <h2>Staff Module</h2>
 
       {/* CREATE */}
       {action === 'create' && (
@@ -78,54 +78,54 @@ useEffect(() => {
       {/* READ */}
       {action === 'read' && (
         <div>
-          <h3>Owner List</h3>
+          <h3>Staff List</h3>
             <SelectList 
-              items={owners}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={staffs}
+              labelFn={(staff) => `${staff.firstName} ${staff.lastName} - ${staff.address}, ${staff.email}, ${staff.phone}, ${staff.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - List to select from */}
-      {action === 'update' && !selectedOwnerId && (
+      {action === 'update' && !selectedStaffId && (
         <div>
-          <h3>Select an Owner to Update</h3>
+          <h3>Select an Staff to Update</h3>
             <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={staffs}
+              onSelect={(id) => setSelectedStaffId(id)}
+              labelFn={(staff) => `${staff.firstName} ${staff.lastName} - ${staff.address}, ${staff.email}, ${staff.phone}, ${staff.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - Form to update selected */}
-      {action === 'update' && selectedOwnerId && (
+      {action === 'update' && selectedStaffId && (
         <PersonForm
           formData={formData}
           handleChange={handleChange}
           handleSubmit={handleUpdate}
           firstFieldRef={firstNameRef}
           action="Update"
-          role="Ownere"
+          role="Staffe"
         />
       )}
 
       {/* DELETE - Select and Confirm */}
-      {action === 'delete' && !selectedOwnerId && (
+      {action === 'delete' && !selectedStaffId && (
         <div>
-          <h3>Select an Owner to Delete</h3>
+          <h3>Select an Staff to Delete</h3>
             <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={staffs}
+              onSelect={(id) => setSelectedStaffId(id)}
+              labelFn={(staff) => `${staff.firstName} ${staff.lastName} - ${staff.address}, ${staff.email}, ${staff.phone}, ${staff.notes}`}
               action={action}
             />
        </div>
       )}
 
-      {action === 'delete' && selectedOwnerId && (
+      {action === 'delete' && selectedStaffId && (
         <div>
           <PersonForm
             formData={formData}
@@ -135,7 +135,7 @@ useEffect(() => {
             action="Confirm Delete"
             readOnly={true}
           />
-          <p>Are you sure you want to delete this owner?</p>
+          <p>Are you sure you want to delete this staff?</p>
           <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
@@ -143,4 +143,4 @@ useEffect(() => {
   );
 };
 
-export default Owner;
+export default Staff;

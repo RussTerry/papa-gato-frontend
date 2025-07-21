@@ -3,27 +3,27 @@ import Person from './Person';
 import PersonForm from './PersonForm';
 import SelectList from './SelectList';
 
-const Owner = ({ action }) => {
-  const [owners, setOwners] = useState([]);
+const Foster = ({ action }) => {
+  const [fosters, setFosters] = useState([]);
   const [formData, setFormData] = useState({ ...Person });
-  const [selectedOwnerId, setSelectedOwnerId] = useState(null);
+  const [selectedFosterId, setSelectedFosterId] = useState(null);
   const firstNameRef = useRef(null);
 
-  const selectedOwner = owners.find((o) => o.id === selectedOwnerId) || null;
+  const selectedFoster = fosters.find((o) => o.id === selectedFosterId) || null;
 
   useEffect(() => {
   if (action === 'create') {
     setFormData({ ...Person });
-    setSelectedOwnerId(null);
+    setSelectedFosterId(null);
     firstNameRef.current?.focus();
-  } else if ((action === 'update' || action === 'delete') && selectedOwner) {
-    setFormData({ ...selectedOwner });
+  } else if ((action === 'update' || action === 'delete') && selectedFoster) {
+    setFormData({ ...selectedFoster });
   }
-}, [action, selectedOwnerId, selectedOwner]);
+}, [action, selectedFosterId, selectedFoster]);
 
 useEffect(() => {
   setFormData({ ...Person });         // Clear the form
-  setSelectedOwnerId(null);           // Clear selected row
+  setSelectedFosterId(null);           // Clear selected row
   firstNameRef.current?.focus();      // Set focus to first field (create only)
 }, [action]);
 
@@ -35,34 +35,34 @@ useEffect(() => {
   
   const handleAdd = () => {
     if (formData.firstName.trim()) {
-      setOwners((prev) => [...prev, { ...formData, id: Date.now() }]);
+      setFosters((prev) => [...prev, { ...formData, id: Date.now() }]);
       setFormData({ ...Person });
       firstNameRef.current?.focus();
     }
   };
 
   const handleUpdate = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) =>
-      prev.map((owner) =>
-        owner.id === selectedOwnerId ? { ...formData, id: selectedOwnerId } : owner
+    if (!selectedFosterId) return;
+    setFosters((prev) =>
+      prev.map((foster) =>
+        foster.id === selectedFosterId ? { ...formData, id: selectedFosterId } : foster
       )
     );
-    setSelectedOwnerId(null);
+    setSelectedFosterId(null);
     setFormData({ ...Person });
   };
 
   const handleDelete = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) => prev.filter((owner) => owner.id !== selectedOwnerId));
-    setSelectedOwnerId(null);
+    if (!selectedFosterId) return;
+    setFosters((prev) => prev.filter((foster) => foster.id !== selectedFosterId));
+    setSelectedFosterId(null);
     setFormData({ ...Person });
   };
 
 
   return (
     <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Owner Module</h2>
+      <h2>Foster Module</h2>
 
       {/* CREATE */}
       {action === 'create' && (
@@ -78,54 +78,54 @@ useEffect(() => {
       {/* READ */}
       {action === 'read' && (
         <div>
-          <h3>Owner List</h3>
+          <h3>Foster List</h3>
             <SelectList 
-              items={owners}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={fosters}
+              labelFn={(foster) => `${foster.firstName} ${foster.lastName} - ${foster.address}, ${foster.email}, ${foster.phone}, ${foster.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - List to select from */}
-      {action === 'update' && !selectedOwnerId && (
+      {action === 'update' && !selectedFosterId && (
         <div>
-          <h3>Select an Owner to Update</h3>
+          <h3>Select an Foster to Update</h3>
             <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={fosters}
+              onSelect={(id) => setSelectedFosterId(id)}
+              labelFn={(foster) => `${foster.firstName} ${foster.lastName} - ${foster.address}, ${foster.email}, ${foster.phone}, ${foster.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - Form to update selected */}
-      {action === 'update' && selectedOwnerId && (
+      {action === 'update' && selectedFosterId && (
         <PersonForm
           formData={formData}
           handleChange={handleChange}
           handleSubmit={handleUpdate}
           firstFieldRef={firstNameRef}
           action="Update"
-          role="Ownere"
+          role="Fostere"
         />
       )}
 
       {/* DELETE - Select and Confirm */}
-      {action === 'delete' && !selectedOwnerId && (
+      {action === 'delete' && !selectedFosterId && (
         <div>
-          <h3>Select an Owner to Delete</h3>
+          <h3>Select an Foster to Delete</h3>
             <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              items={fosters}
+              onSelect={(id) => setSelectedFosterId(id)}
+              labelFn={(foster) => `${foster.firstName} ${foster.lastName} - ${foster.address}, ${foster.email}, ${foster.phone}, ${foster.notes}`}
               action={action}
             />
        </div>
       )}
 
-      {action === 'delete' && selectedOwnerId && (
+      {action === 'delete' && selectedFosterId && (
         <div>
           <PersonForm
             formData={formData}
@@ -135,7 +135,7 @@ useEffect(() => {
             action="Confirm Delete"
             readOnly={true}
           />
-          <p>Are you sure you want to delete this owner?</p>
+          <p>Are you sure you want to delete this foster?</p>
           <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
@@ -143,4 +143,4 @@ useEffect(() => {
   );
 };
 
-export default Owner;
+export default Foster;

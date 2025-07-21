@@ -1,30 +1,17 @@
 import React from 'react';
 
 function CrudMenu({ onActionChange }) {
-    const handleChange = (e) => {
-    const action = e.target.value;
-    onActionChange(action);
-    }
-  return (
-< div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '1em', margin: '1em 0' }}>
-    <label>
-      <input type="radio" name="crud" value="create" onChange={(e) => onActionChange(e.target.value)} />
-      Create
-    </label>
-    <label>
-      <input type="radio" name="crud" value="read" onChange={(e) => onActionChange(e.target.value)}  />
-      Read
-    </label>
-    <label>
-      <input type="radio" name="crud" value="update" onChange={(e) => onActionChange(e.target.value)} />
-      Update
-    </label>
-    <label>
-      <input type="radio" name="crud" value="delete" onChange={(e) => onActionChange(e.target.value)} />
-      Delete
-    </label>
-  </div>
-  );}
+  const actions = ['create', 'read', 'update', 'delete'];
 
+  return (
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '1em', margin: '1em 0' }}>
+      {actions.map((action) => (
+        <button key={action} onClick={() => onActionChange(action)}>
+          {action.charAt(0).toUpperCase() + action.slice(1)}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default CrudMenu;
