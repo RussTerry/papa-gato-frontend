@@ -15,11 +15,11 @@ function RoleMenu({ onSelectionChange = () => {} }) {
         <input
           type="radio"
           name="role"
-          value="Donor"
-          checked={selectedRole === 'Donor'}
+          value="Location"
+          checked={selectedRole === 'Location'}
           onChange={handleOptionChange}
         />
-        Donor
+        Location
       </label>
 
       <label>

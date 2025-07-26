@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Person from './Person';
-import PersonForm from './PersonForm';
-import SelectList from './SelectList';
+import Person from '../../components/Person/Person';
+import PersonForm from '../../components/Person/PersonForm';
+import SelectList from '../../components/SelectList';
 
 const Foster = ({ action }) => {
   const [fosters, setFosters] = useState([]);

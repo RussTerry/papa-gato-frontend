@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Person from './Person';
-import PersonForm from './PersonForm';
-import SelectList from './SelectList';
+import Person from '../../components/Person/Person';
+import PersonForm from '../../components/Person/PersonForm';
+import SelectList from '../../components/SelectList';
 
 const Owner = ({ action }) => {
   const [owners, setOwners] = useState([]);
@@ -12,20 +12,20 @@ const Owner = ({ action }) => {
   const selectedOwner = owners.find((o) => o.id === selectedOwnerId) || null;
 
   useEffect(() => {
-  if (action === 'create') {
-    setFormData({ ...Person });
-    setSelectedOwnerId(null);
-    firstNameRef.current?.focus();
+    if (action === 'create') {
+      setFormData({ ...Person });
+      setSelectedOwnerId(null);
+      firstNameRef.current?.focus();
   } else if ((action === 'update' || action === 'delete') && selectedOwner) {
     setFormData({ ...selectedOwner });
   }
-}, [action, selectedOwnerId, selectedOwner]);
+  }, [action, selectedOwnerId, selectedOwner]);
 
-useEffect(() => {
-  setFormData({ ...Person });         // Clear the form
-  setSelectedOwnerId(null);           // Clear selected row
-  firstNameRef.current?.focus();      // Set focus to first field (create only)
-}, [action]);
+  useEffect(() => {
+    setFormData({ ...Person });         // Clear the form
+    setSelectedOwnerId(null);           // Clear selected row
+    firstNameRef.current?.focus();      // Set focus to first field (create only)
+  }, [action]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,9 +56,8 @@ useEffect(() => {
     if (!selectedOwnerId) return;
     setOwners((prev) => prev.filter((owner) => owner.id !== selectedOwnerId));
     setSelectedOwnerId(null);
-    setFormData({ ...Person });
+    setFormData({ ...Location });
   };
-
 
   return (
     <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
@@ -79,9 +78,10 @@ useEffect(() => {
       {action === 'read' && (
         <div>
           <h3>Owner List</h3>
-            <SelectList 
+            <SelectList
               items={owners}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
+              labelFn={(owner) =>  `${owner.firstName} ${owner.lastName} - 
+              ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
               action={action}
             />
         </div>
@@ -120,7 +120,7 @@ useEffect(() => {
               items={owners}
               onSelect={(id) => setSelectedOwnerId(id)}
               labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
-              action={action}
+              action={action}firstFieldRef={firstNameRef}
             />
        </div>
       )}

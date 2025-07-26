@@ -1,29 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Person from './Person';
-import PersonForm from './PersonForm';
-import SelectList from './SelectList';
+import Person from '../../components/Person/Person';
+import PersonForm from '../../components/Person/PersonForm';
+import SelectList from '../../components/SelectList';
 
-const Donor = ({ action }) => {
-  const [donors, setDonors] = useState([]);
+const Vet = ({ action }) => {
+  const [vets, setVets] = useState([]);
   const [formData, setFormData] = useState({ ...Person });
-  const [selectedDonorId, setSelectedDonorId] = useState(null);
+  const [selectedVetId, setSelectedVetId] = useState(null);
   const firstNameRef = useRef(null);
 
-  const selectedDonor = donors.find((o) => o.id === selectedDonorId) || null;
+  const selectedVet = vets.find((o) => o.id === selectedVetId) || null;
 
   useEffect(() => {
   if (action === 'create') {
     setFormData({ ...Person });
-    setSelectedDonorId(null);
+    setSelectedVetId(null);
     firstNameRef.current?.focus();
-  } else if ((action === 'update' || action === 'delete') && selectedDonor) {
-    setFormData({ ...selectedDonor });
+  } else if ((action === 'update' || action === 'delete') && selectedVet) {
+    setFormData({ ...selectedVet });
   }
-}, [action, selectedDonorId, selectedDonor]);
+}, [action, selectedVetId, selectedVet]);
 
 useEffect(() => {
   setFormData({ ...Person });         // Clear the form
-  setSelectedDonorId(null);           // Clear selected row
+  setSelectedVetId(null);           // Clear selected row
   firstNameRef.current?.focus();      // Set focus to first field (create only)
 }, [action]);
 
@@ -35,34 +35,34 @@ useEffect(() => {
   
   const handleAdd = () => {
     if (formData.firstName.trim()) {
-      setDonors((prev) => [...prev, { ...formData, id: Date.now() }]);
+      setVets((prev) => [...prev, { ...formData, id: Date.now() }]);
       setFormData({ ...Person });
       firstNameRef.current?.focus();
     }
   };
 
   const handleUpdate = () => {
-    if (!selectedDonorId) return;
-    setDonors((prev) =>
-      prev.map((donor) =>
-        donor.id === selectedDonorId ? { ...formData, id: selectedDonorId } : donor
+    if (!selectedVetId) return;
+    setVets((prev) =>
+      prev.map((vet) =>
+        vet.id === selectedVetId ? { ...formData, id: selectedVetId } : vet
       )
     );
-    setSelectedDonorId(null);
+    setSelectedVetId(null);
     setFormData({ ...Person });
   };
 
   const handleDelete = () => {
-    if (!selectedDonorId) return;
-    setDonors((prev) => prev.filter((donor) => donor.id !== selectedDonorId));
-    setSelectedDonorId(null);
+    if (!selectedVetId) return;
+    setVets((prev) => prev.filter((vet) => vet.id !== selectedVetId));
+    setSelectedVetId(null);
     setFormData({ ...Person });
   };
 
 
   return (
     <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Donor Module</h2>
+      <h2>Vet Module</h2>
 
       {/* CREATE */}
       {action === 'create' && (
@@ -78,54 +78,54 @@ useEffect(() => {
       {/* READ */}
       {action === 'read' && (
         <div>
-          <h3>Donor List</h3>
+          <h3>Vet List</h3>
             <SelectList 
-              items={donors}
-              labelFn={(donor) => `${donor.firstName} ${donor.lastName} - ${donor.address}, ${donor.email}, ${donor.phone}, ${donor.notes}`}
+              items={vets}
+              labelFn={(vet) => `${vet.firstName} ${vet.lastName} - ${vet.address}, ${vet.email}, ${vet.phone}, ${vet.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - List to select from */}
-      {action === 'update' && !selectedDonorId && (
+      {action === 'update' && !selectedVetId && (
         <div>
-          <h3>Select an Donor to Update</h3>
+          <h3>Select an Vet to Update</h3>
             <SelectList 
-              items={donors}
-              onSelect={(id) => setSelectedDonorId(id)}
-              labelFn={(donor) => `${donor.firstName} ${donor.lastName} - ${donor.address}, ${donor.email}, ${donor.phone}, ${donor.notes}`}
+              items={vets}
+              onSelect={(id) => setSelectedVetId(id)}
+              labelFn={(vet) => `${vet.firstName} ${vet.lastName} - ${vet.address}, ${vet.email}, ${vet.phone}, ${vet.notes}`}
               action={action}
             />
         </div>
       )}
 
       {/* UPDATE - Form to update selected */}
-      {action === 'update' && selectedDonorId && (
+      {action === 'update' && selectedVetId && (
         <PersonForm
           formData={formData}
           handleChange={handleChange}
           handleSubmit={handleUpdate}
           firstFieldRef={firstNameRef}
           action="Update"
-          role="Donore"
+          role="Vete"
         />
       )}
 
       {/* DELETE - Select and Confirm */}
-      {action === 'delete' && !selectedDonorId && (
+      {action === 'delete' && !selectedVetId && (
         <div>
-          <h3>Select an Donor to Delete</h3>
+          <h3>Select an Vet to Delete</h3>
             <SelectList 
-              items={donors}
-              onSelect={(id) => setSelectedDonorId(id)}
-              labelFn={(donor) => `${donor.firstName} ${donor.lastName} - ${donor.address}, ${donor.email}, ${donor.phone}, ${donor.notes}`}
+              items={vets}
+              onSelect={(id) => setSelectedVetId(id)}
+              labelFn={(vet) => `${vet.firstName} ${vet.lastName} - ${vet.address}, ${vet.email}, ${vet.phone}, ${vet.notes}`}
               action={action}
             />
        </div>
       )}
 
-      {action === 'delete' && selectedDonorId && (
+      {action === 'delete' && selectedVetId && (
         <div>
           <PersonForm
             formData={formData}
@@ -135,7 +135,7 @@ useEffect(() => {
             action="Confirm Delete"
             readOnly={true}
           />
-          <p>Are you sure you want to delete this donor?</p>
+          <p>Are you sure you want to delete this vet?</p>
           <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
@@ -143,4 +143,4 @@ useEffect(() => {
   );
 };
 
-export default Donor;
+export default Vet;
