@@ -64,6 +64,17 @@ function RoleMenu({ onSelectionChange = () => {} }) {
         />
         Vet
       </label>
+      <label>
+        <input
+          type="radio"
+          name="role"
+          value="Inventory"
+          checked={selectedRole === 'Inventory'}
+          onChange={handleOptionChange}
+        />
+        Inventory
+      </label>
+
 
     </div>
   );

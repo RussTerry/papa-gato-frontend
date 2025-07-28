@@ -9,8 +9,8 @@ import Owner from './modules/Owner/Owner';
 import Staff from './modules/Staff/Staff';
 import Vet from './modules/Vet/Vet';
 import Location from './modules/Location/Location';
-
-
+import Inventory from './modules/Inventory/Inventory';
+import 'react-datepicker/dist/react-datepicker.css';
 const componentMap = {
   donor: Donor,
   foster: Foster,
@@ -18,6 +18,7 @@ const componentMap = {
   staff: Staff,
   vet: Vet,
   location: Location,
+  inventory: Inventory, 
 };
 
 function App() {
