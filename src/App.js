@@ -10,7 +10,10 @@ import Staff from './modules/Staff/Staff';
 import Vet from './modules/Vet/Vet';
 import Location from './modules/Location/Location';
 import Inventory from './modules/Inventory/Inventory';
+import Clinic from './modules/Clinic/Clinic';
+import Species from './modules/Species/Species';
 import 'react-datepicker/dist/react-datepicker.css';
+
 const componentMap = {
   donor: Donor,
   foster: Foster,
@@ -18,7 +21,9 @@ const componentMap = {
   staff: Staff,
   vet: Vet,
   location: Location,
-  inventory: Inventory, 
+  inventory: Inventory,
+  clinic:  Clinic,
+  species: Species 
 };
 
 function App() {

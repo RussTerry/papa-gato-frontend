@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 
 function RoleMenu({ onSelectionChange = () => {} }) {
   const [selectedRole, setSelectedRole] = useState('');
-
   const handleOptionChange = (event) => {
     const value = event.target.value;
     setSelectedRole(value);
@@ -73,6 +72,27 @@ function RoleMenu({ onSelectionChange = () => {} }) {
           onChange={handleOptionChange}
         />
         Inventory
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="role"
+          value="Clinic"
+          checked={selectedRole === 'Clinic'}
+          onChange={handleOptionChange}
+        />
+        Clinic
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="role"
+          value="Species"
+          checked={selectedRole === 'Species'}
+          onChange={handleOptionChange}
+        />
+        Species
       </label>
 
 

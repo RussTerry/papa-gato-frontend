@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SelectList = ({ items, onSelect, labelFn, action, role = "Items" }) => {
+const SelectList = ({ items, onSelect, labelFn, action, role = "items" }) => {
   if (!items || items.length === 0) {
     return <p>No {role} available.</p>;
   }

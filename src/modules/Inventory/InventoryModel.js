@@ -6,7 +6,7 @@
     purchaseDate: '',
     expirationDate: '',
     updateDate: '',
-    notes: ''
+    notes: '',
   };
 
   export default InventoryModel;

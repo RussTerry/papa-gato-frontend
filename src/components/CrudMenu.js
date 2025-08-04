@@ -1,3 +1,5 @@
+// CrudMenu.js
+
 import React from 'react';
 
 function CrudMenu({ onActionChange }) {

@@ -1,8 +1,9 @@
-// LocationModel.js
-
-const locationModel = {
-  location: '',
-  notes: '',
+const LocationModel = {
+  id: null,           // internal use only
+  name: '',
+  address: '',
+  phone: '',
+  email: '',
 };
 
-export default locationModel;
+export default LocationModel;

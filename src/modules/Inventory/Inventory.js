@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import InventoryForm from '../../modules/Inventory/InventoryForm';
 import SelectList from '../../components/SelectList';
-import inventoryModel from '../../modules/Inventory/InventoryModel';
+import InventoryModel from '../../modules/Inventory/InventoryModel';
+import { formatDate } from '../../utils/formatters';
 
 const Inventory = ({ action }) => {
   const [inventorys, setInventorys] = useState([]);
-  const [formData, setFormData] = useState({ ...inventorys });
+  const [formData, setFormData] = useState({ ...InventoryModel });
   const [selectedInventoryId, setSelectedInventoryId] = useState(null);
   const firstItemRef = useRef(null);
 
@@ -13,7 +14,7 @@ const Inventory = ({ action }) => {
 
   useEffect(() => {
     if (action === 'create') {
-      setFormData({ ...inventoryModel });
+      setFormData({ ...InventoryModel });
       setSelectedInventoryId(null);
       firstItemRef.current?.focus();
   } else if ((action === 'update' || action === 'delete') && selectedInventory) {
@@ -22,7 +23,7 @@ const Inventory = ({ action }) => {
   }, [action, selectedInventoryId, selectedInventory]);
 
   useEffect(() => {
-    setFormData({ ...Inventory });         // Clear the form
+    setFormData({ ...InventoryModel });         // Clear the form
     setSelectedInventoryId(null);           // Clear selected row
     firstItemRef.current?.focus();      // Set focus to first field (create only)
   }, [action]);
@@ -31,16 +32,17 @@ const Inventory = ({ action }) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   
   const handleAdd = () => {
-    console.log('handleAdd');
-    if (formData.item.trim()) {
-      setInventorys((prev) => [...prev, { ...formData, id: Date.now() }]);
-      setFormData({ ...Inventory });
-      firstItemRef.current?.focus();
-    }
-  };
+  if (formData.item.trim()) {
+    setInventorys((prev) => [...prev, { ...formData, id: Date.now() }]);
+    setFormData({ ...InventoryModel });
+    firstItemRef.current?.focus();
+  } else {
+    // Optional: refocus manually if validation fails
+    firstItemRef.current?.focus();
+  }
+};
 
   const handleUpdate = () => {
     console.log('handleUpdate');
@@ -51,7 +53,7 @@ const Inventory = ({ action }) => {
       )
     );
     setSelectedInventoryId(null);
-    setFormData({ ...Inventory });
+    setFormData({ ...InventoryModel });
   };
 
   const handleDelete = () => {
@@ -59,9 +61,9 @@ const Inventory = ({ action }) => {
     if (!selectedInventoryId) return;
     setInventorys((prev) => prev.filter((inventory) => inventory.id !== selectedInventoryId));
     setSelectedInventoryId(null);
-    setFormData({ ...Inventory });
+    setFormData({ ...InventoryModel });
   };
-
+  
   return (
     <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
       <h2>Inventory Module</h2>
@@ -74,23 +76,25 @@ const Inventory = ({ action }) => {
           handleSubmit={handleAdd}
           firstFieldRef={firstItemRef}
           setFormData={setFormData}
-          action="Add"
+          action="add"
         />
       )}
 
       {/* READ */}
-      {action === 'read' && (
-        <div>
-          <h3>Inventory List</h3>
-            <SelectList
-              items={inventorys}
-              labelFn={(inventory) =>  `${inventory.item}, ${inventory.quantity}, 
-              ${inventory.locationName}, ${inventory.purchaseDate},
-              ${inventory.expirationDate}, ${inventory.updateDate}, ${inventory.notes}`}
-              action={action}
-            />
-        </div>
-      )}
+{action === 'read' && (
+  <div>
+    <h3>Inventory List</h3>
+    <SelectList
+      items={inventorys}
+      labelFn={(inventory) =>
+        `${inventory.item}, ${inventory.quantity}, ${inventory.locationName}, ` +
+        `${formatDate(inventory.purchaseDate)}, ${formatDate(inventory.expirationDate)}, ` +
+        `${formatDate(inventory.updateDate)}, ${inventory.notes}`
+      }
+      action={action}
+    />
+  </div>
+)}
 
       {/* UPDATE - List to select from */}
       {action === 'update' && !selectedInventoryId && (
@@ -99,10 +103,12 @@ const Inventory = ({ action }) => {
             <SelectList 
               items={inventorys}
               onSelect={(id) => setSelectedInventoryId(id)}
-              labelFn={(inventory) =>  `${inventory.item}, ${inventory.quantity}, 
-              ${inventory.locationName}, ${inventory.purchaseDate},
-              ${inventory.expirationDate}, ${inventory.updateDate}, ${inventory.notes}`}
-              action={action}
+        labelFn={(inventory) =>
+        `${inventory.item}, ${inventory.quantity}, ${inventory.locationName}, ` +
+        `${formatDate(inventory.purchaseDate)}, ${formatDate(inventory.expirationDate)}, ` +
+        `${formatDate(inventory.updateDate)}, ${inventory.notes}`
+      }
+            action={action}
             />
         </div>
       )}
@@ -127,9 +133,11 @@ const Inventory = ({ action }) => {
             <SelectList 
               items={inventorys}
               onSelect={(id) => setSelectedInventoryId(id)}
-              labelFn={(inventory) =>  `${inventory.item}, ${inventory.quantity}, 
-              ${inventory.locationName}, ${inventory.purchaseDate},
-              ${inventory.expirationDate}, ${inventory.updateDate}, ${inventory.notes}`}
+      labelFn={(inventory) =>
+        `${inventory.item}, ${inventory.quantity}, ${inventory.locationName}, ` +
+        `${formatDate(inventory.purchaseDate)}, ${formatDate(inventory.expirationDate)}, ` +
+        `${formatDate(inventory.updateDate)}, ${inventory.notes}`
+      }
               action={action}firstFieldRef={firstItemRef}
             />
        </div>

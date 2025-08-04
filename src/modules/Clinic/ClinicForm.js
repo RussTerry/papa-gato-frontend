@@ -1,30 +1,38 @@
-// InventoryForm.js
-
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const InventoryForm = ({
+const ClinicForm = ({
   formData,
   handleChange,
   handleSubmit,
   firstFieldRef,
   action = 'Submit',
   readOnly = false,
+  rold = 'clinic'
 }) => {
-  const fields = ['item', 'quantity', 'locationName', 'purchaseDate', 'expirationDate', 'updateDate', 'notes'];
+  const fields = ['location','date', 'notes'];
 
-  const renderField = (field, index) => {
-    const isDateField = ['purchaseDate', 'expirationDate', 'updateDate'].includes(field);
+  const renderField = (field) => {
+    const isDateField = field === 'date';
+
+    const ref = field === 'location' ? firstFieldRef : null;
 
     if (isDateField) {
       const dateValue = formData[field] ? new Date(formData[field]) : null;
       return (
         <DatePicker
           selected={dateValue}
-          onChange={(date) => handleChange({ target: { name: field, value: date?.toISOString() || '' } })}
+          onChange={(date) =>
+            handleChange({
+              target: {
+                name: field,
+                value: date?.toISOString() || '',
+              },
+            })
+          }
           dateFormat="dd-MMM-yy"
-          ref={index === 0 ? firstFieldRef : null}
+          placeholderText="Select a date"
           className="form-control"
           readOnly={readOnly}
         />
@@ -37,7 +45,7 @@ const InventoryForm = ({
           name={field}
           value={formData[field]}
           onChange={readOnly ? undefined : handleChange}
-          ref={index === 0 ? firstFieldRef : null}
+          ref={ref}
           style={{ width: '100%' }}
           readOnly={readOnly}
         />
@@ -50,21 +58,20 @@ const InventoryForm = ({
         name={field}
         value={formData[field] || ''}
         onChange={readOnly ? undefined : handleChange}
-        ref={index === 0 ? firstFieldRef : null}
+        ref={ref}
         style={{ width: '100%' }}
         readOnly={readOnly}
       />
-
     );
   };
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      {fields.map((field, index) => (
+      {fields.map((field) => (
         <div key={field} style={{ margin: '0.5em 0' }}>
           <label>
             {field.charAt(0).toUpperCase() + field.slice(1)}:<br />
-            {renderField(field, index)}
+            {renderField(field)}
           </label>
         </div>
       ))}
@@ -77,4 +84,4 @@ const InventoryForm = ({
   );
 };
 
-export default InventoryForm;
+export default ClinicForm;
