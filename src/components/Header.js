@@ -1,10 +1,11 @@
-import React from 'react'
+// Header.js
+
+import './Header.css';
 
 const Header = () => {
   return (
     <header>
-      <h1>PAPA GATO CLINIC RECORDS SYSTEM</h1>
-      <hr></hr>
+      <h2>PAPA GATO CLINIC RECORDS SYSTEM</h2>
       <hr></hr>
     </header>
   )

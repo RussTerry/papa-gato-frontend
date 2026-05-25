@@ -1,9 +1,9 @@
+// LocationModel.js
+
 const LocationModel = {
   id: null,           // internal use only
   name: '',
-  address: '',
-  phone: '',
-  email: '',
+  notes: '',
 };
 
 export default LocationModel;

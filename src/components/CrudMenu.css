@@ -1,0 +1,27 @@
+.crudbutton {
+  border: 1;
+    padding: 0 20px;
+    line-height: 1.5;
+    margin: 5px;
+    font-size: 1.5rem;
+    width: 10rem;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    border-radius: 10px;
+    background-color: green;
+    background-image: linear-gradient(
+        to top left,
+        rgb(0 0 0 / 20%),
+        rgb(0 0 0 / 20%) 30%,
+        transparent
+    );
+}
+
+hr {
+    height: 10px;            /* Set the thickness */
+  background-color: black;  /* Set the color */
+/*  border: none; */            /* Removes the default 1px border */
+
+}
+

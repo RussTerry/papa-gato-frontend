@@ -1,141 +1,98 @@
-import React, { useState, useEffect, useRef } from 'react';
-import SelectList from '../../components/SelectList';
-import LocationForm from '../../modules/Location/LocationForm';
-import LocationModel from '../../modules/Location/LocationModel';
+// Location.js
 
-const Location = ({ action }) => {
-  const [locations, setLocations] = useState([]);
-  const [formData, setFormData] = useState({ ...LocationModel });
-  const [selectedLocationId, setSelectedLocationId] = useState(null);
-  const locationRef = useRef(null);
+import { useState } from "react";
+import LocationModel from "../../modules/Location/LocationModel";
+import LocationForm from "../../modules/Location/LocationForm";
+import SelectList from "../../components/SelectList";
+import './Location.css';
 
-  const selectedLocation = locations.find((o) => o.id === selectedLocationId) || null;
-
-  // Keep formData synced when selecting an item (for update/delete)
-useEffect(() => {
-  if (action === 'create') {
-    setFormData({ ...LocationModel });  // Clear form
-    setSelectedLocationId(null);        // Clear selection
-    locationRef.current?.focus();       // Set focus
-  } else if ((action === 'update' || action === 'delete') && selectedLocation) {
-    setFormData({ ...selectedLocation }); // Fill form with selected data
-  }
-}, [action, selectedLocation]);
+const Location = ({ locations, setLocations, handleActionChange, selectedAction, setSelectedAction }) => {
+  const [formData, setFormData] = useState(LocationModel);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-const handleAdd = () => {
-  if (formData.location.trim()) {
-    setLocations((prev) => [...prev, { ...formData, id: Date.now() }]);
-    setFormData({ ...LocationModel });
-    setSelectedLocationId(null);
-    locationRef.current?.focus();
-  }
-};
-
-  const handleUpdate = () => {
-    if (!selectedLocationId) return;
-    setLocations((prev) =>
-      prev.map((location) =>
-        location.id === selectedLocationId ? { ...formData, id: selectedLocationId } : location
-      )
-    );
-    setSelectedLocationId(null);
-    setFormData({ ...LocationModel });
+  const handleSelect = (id) => {
+    const loc = locations.find((l) => Number(l.id) === Number(id));
+    if (loc) {
+      setSelectedLocation(loc);
+      setFormData(loc); 
+    }
   };
 
-  const handleDelete = () => {
-    if (!selectedLocationId) return;
-    setLocations((prev) => prev.filter((location) => location.id !== selectedLocationId));
-    setSelectedLocationId(null);
-    setFormData({ ...LocationModel });
+  const handleSubmit = (data) => {
+    if (selectedAction === "create") {
+      const newLocation = {
+        id: Date.now(), 
+        name: data.name || "",
+        notes: data.notes || ""
+      };
+      setLocations([...locations, newLocation]);
+
+    } else if (selectedAction === "update" && selectedLocation) {
+      const updatedLocation = {
+        id: selectedLocation.id,
+        name: data.name || "",
+        notes: data.notes || ""
+      };
+      setLocations(
+        locations.map((l) => Number(l.id) === Number(selectedLocation.id) ? updatedLocation : l)
+      );
+
+    } else if (selectedAction === "delete" && selectedLocation) {
+      setLocations(locations.filter((l) => Number(l.id) !== Number(selectedLocation.id)));
+    }
+    
+    // Reset workspace frame back to baseline state
+    setSelectedAction("");
+    setFormData(LocationModel);
+    setSelectedLocation(null);
   };
 
-  return (
-    <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Location Module</h2>
-
-      {/* CREATE */}
-      {action === 'create' && (
-        <LocationForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleAdd}
-          firstFieldRef={locationRef}
-          action="Add"
-        />
-      )}
-
-      {/* READ */}
-      {action === 'read' && (
-        <div>
-          <h3>Location List</h3>
-          <SelectList
-            items={locations}
-            labelFn={(location) => `${location.location} ${location.notes}`}
-            action={action}
-          />
-        </div>
-      )}
-
-      {/* UPDATE - Select a Location */}
-      {action === 'update' && !selectedLocationId && (
-        <div>
-          <h3>Select a Location to Update</h3>
-          <SelectList
-            items={locations}
-            onSelect={(id) => setSelectedLocationId(id)}
-            labelFn={(location) => `${location.location} ${location.notes}`}
-            action={action}
-          />
-        </div>
-      )}
-
-      {/* UPDATE - Form */}
-      {action === 'update' && selectedLocationId && (
-        <LocationForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleUpdate}
-          firstFieldRef={locationRef}
-          action="Update"
+return (
+  <div className="location-management-container">
+    <h2>Location Management</h2>
+    <hr />
+    
+    {/* Selection Area Grid */}
+    {(selectedAction === "read" || selectedAction === "update" || selectedAction === "delete") && (
+      <div className="select-list-wrapper">
+        <SelectList
+          items={locations}
+          onSelect={handleSelect} 
+          labelFn={(loc) => `${loc.name} (${loc.notes || "no notes"})`}
+          selectedAction={selectedAction}
           role="locations"
         />
-      )}
+      </div>
+    )}
 
-      {/* DELETE - Select a Location */}
-      {action === 'delete' && !selectedLocationId && (
-        <div>
-          <h3>Select a Location to Delete</h3>
-          <SelectList
-            items={locations}
-            onSelect={(id) => setSelectedLocationId(id)}
-            labelFn={(location) => `${location.location} ${location.notes}`}
-            action={action}
-          />
-        </div>
-      )}
+    {/* Controlled Module Input View Frame */}
+    {(selectedAction === "create" ||
+      selectedAction === "update" ||
+      selectedAction === "delete") && (
+      <div className="location-form-card">
+        <h3 className="location-form-title">
+          {selectedAction.toUpperCase()} FORM
+        </h3>
+        
+        <LocationForm
+          formData={formData}
+          handleChange={handleChange}
+          onSubmit={() => handleSubmit(formData)}
+          action={selectedAction}
+          readOnly={selectedAction === "delete"}
+        />
+      </div>
+    )}
+  </div>
+)};
 
-      {/* DELETE - Confirm */}
-      {action === 'delete' && selectedLocationId && (
-        <div>
-          <LocationForm
-            formData={formData}
-            handleChange={() => {}}
-            handleSubmit={handleDelete}
-            firstFieldRef={locationRef}
-            action="Confirm Delete"
-            readOnly={true}
-          />
-          <p>Are you sure you want to delete this location?</p>
-          <button onClick={handleDelete}>Delete</button>
-        </div>
-      )}
-    </div>
-  );
-};
 
 export default Location;

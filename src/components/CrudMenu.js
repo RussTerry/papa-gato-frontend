@@ -1,17 +1,18 @@
 // CrudMenu.js
 
-import React from 'react';
+import './CrudMenu.css';
 
-function CrudMenu({ onActionChange }) {
+function CrudMenu({ handleActionChange }) {
   const actions = ['create', 'read', 'update', 'delete'];
 
   return (
-    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '1em', margin: '1em 0' }}>
+    <div className = 'crudmenu' >
       {actions.map((action) => (
-        <button key={action} onClick={() => onActionChange(action)}>
+        <button className='crudbutton' key={action} onClick={() => handleActionChange(action)}>
           {action.charAt(0).toUpperCase() + action.slice(1)}
         </button>
       ))}
+      
     </div>
   );
 }

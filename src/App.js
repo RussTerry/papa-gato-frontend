@@ -1,53 +1,49 @@
-import React, { useState } from 'react';
+// Aoo.js
+
+import { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import CrudMenu from './components/CrudMenu';
 import RoleMenu from './components/RoleMenu';
-import Donor from './modules/Donor/Donor'; 
-import Foster from './modules/Foster/Foster'; 
-import Owner from './modules/Owner/Owner';
-import Staff from './modules/Staff/Staff';
-import Vet from './modules/Vet/Vet';
 import Location from './modules/Location/Location';
-import Inventory from './modules/Inventory/Inventory';
-import Clinic from './modules/Clinic/Clinic';
-import Species from './modules/Species/Species';
-import 'react-datepicker/dist/react-datepicker.css';
-
-const componentMap = {
-  donor: Donor,
-  foster: Foster,
-  owner: Owner,
-  staff: Staff,
-  vet: Vet,
-  location: Location,
-  inventory: Inventory,
-  clinic:  Clinic,
-  species: Species 
-};
+// (Keep your other module imports here...)
 
 function App() {
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedAction, setSelectedAction] = useState('');
-  const SelectedComponent = componentMap[selectedRole?.toLowerCase()];
+  
+  // 1. GLOBAL STATE: Lifted here so it never wipes out on render cycles
+  const [locations, setLocations] = useState([
+    { id: 1, name: "Desk Drawer", notes: "Office supplies" },
+    { id: 2, name: "Cabinet 4", notes: "Medical stock" },
+  ]);
 
   const handleActionChange = (newAction) => {
-    console.log('Clicked:', newAction);
-    if (selectedAction === newAction) {
-      setSelectedAction('');
-      setTimeout(() => setSelectedAction(newAction), 0);
-    } else {
-      setSelectedAction(newAction);
-    }
+    setSelectedAction(newAction);
   };
 
   return (
     <div className="App">
       <Header />
-      <RoleMenu onSelectionChange={(value) => setSelectedRole(value)} />
-        {console.log({selectedRole})}
-      {selectedRole && <CrudMenu onActionChange={handleActionChange} />}
-      {SelectedComponent && selectedAction && <SelectedComponent action={selectedAction} />}
+      <RoleMenu onSelectionChange={(value) => {
+        setSelectedRole(value);
+        setSelectedAction(''); // Clean workspace action frame on role switch
+      }} />
+      
+      {selectedRole && <CrudMenu handleActionChange={handleActionChange} />}
+      
+      {/* 2. RENDER HOOK: Clean static assignment */}
+      {selectedRole?.toLowerCase() === 'location' && selectedAction && (
+        <Location 
+          locations={locations}
+          setLocations={setLocations}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+          handleActionChange={handleActionChange} 
+        />
+      )}
+      
+      {/* (Add your other explicit module tags here when ready) */}
     </div>
   );
 }

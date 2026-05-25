@@ -1,0 +1,92 @@
+/* Container Layout Frame */
+
+.custom-select-list {
+  list-style-type: none; 
+  padding: 0;
+  margin: 0;
+
+
+}
+
+/* Base style for every list row line */
+.custom-select-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Spreads out label text and select button */
+  padding: 0.6em 1em;
+  border-bottom: 1px solid #eaeaea;
+  text-align: left;
+
+}
+
+/* ALTERNATING COLORS: Applies light background only to even rows */
+.custom-select-list-item:nth-child(even) {
+  background-color: #a9b5e6; /* Soft contrasting color row overlay */
+}
+
+/* Optional hover state to make rows look interactive */
+.custom-select-list-item:hover {
+  background-color: #709fce;
+}
+.location-management-container {
+  text-align: center;
+}
+
+/* Isolated Grid Selection Table Wrapper */
+.select-list-wrapper {
+  padding: 1em;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+/* Narrows, Centers, and Colors the Module Form Box */
+.location-form-card {
+  margin-top: 2em;
+  padding: 1.5em;
+  border: 1px solid #b3d4fc;
+  border-radius: 8px;       
+  max-width: 400px;         
+  margin-left: auto;        
+  margin-right: auto;       
+  text-align: left;
+  background-color: #eef6fc;
+}
+
+.location-form-title {
+  text-align: center;
+  margin-top: 0;
+  color: #1a4a75;
+}
+
+/* Input Field Rows inside the Form */
+.form-field-group {
+  margin: 0.5em 0;
+}
+
+.form-field-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4em;
+}
+
+/* Form Action Buttons Centering and Theme */
+.form-action-button-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5em;
+}
+
+.form-action-submit-btn {
+  padding: 0.6em 2em;
+  background-color: #1a4a75;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.form-action-submit-btn:hover {
+  background-color: #123452; /* Slightly darker shade on mouse hover */
+}

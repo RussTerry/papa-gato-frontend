@@ -3,41 +3,43 @@ import React from 'react';
 const LocationForm = ({
   formData,
   handleChange,
-  handleSubmit,
+  onSubmit, 
   firstFieldRef,
   action = 'Submit',
   readOnly = false,
-  role = 'location'
 }) => {
   return (
-    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-      <div style={{ margin: '0.5em 0' }}>
-        <label htmlFor="location">Location:</label>
+    <form onSubmit={(e) => e.preventDefault()} autoComplete="off">
+      <div className="form-field-group">
+        <label htmlFor="name">Location:</label>
         <input
-          id="location"
-          name="location"
+          id="name"
+          name="name"
           type="text"
-          value={formData.location}
+          value={formData.name || ""}
           onChange={handleChange}
           ref={firstFieldRef}
           readOnly={readOnly}
           required
-          style={{ width: '100%' }}
         />
       </div>
-      <div style={{ margin: '0.5em 0' }}>
+      <div className="form-field-group">
         <label htmlFor="notes">Notes:</label>
         <input
           id="notes"
           name="notes"
           type="text"
-          value={formData.notes}
+          value={formData.notes || ""}
           onChange={handleChange}
           readOnly={readOnly}
-          style={{ width: '100%' }}
         />
       </div>
-      <button type="submit">{action}</button>
+      
+      <div className="form-action-button-row">
+        <button type="button" onClick={() => onSubmit()} className="form-action-submit-btn">
+          {action.toUpperCase()}
+        </button>
+      </div>
     </form>
   );
 };

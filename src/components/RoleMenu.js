@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+// RoleMenu.js
+
+import { useState } from 'react';
+import './RoleMenu.css';
+
 
 function RoleMenu({ onSelectionChange = () => {} }) {
   const [selectedRole, setSelectedRole] = useState('');
@@ -10,90 +14,23 @@ function RoleMenu({ onSelectionChange = () => {} }) {
 
   return (
     <div>
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Location"
-          checked={selectedRole === 'Location'}
-          onChange={handleOptionChange}
-        />
+      <button
+        className={`rolebutton ${selectedRole === 'Location' ? 'selected' : ''}`}
+        name="role"
+        value="Location"
+        onClick={handleOptionChange}
+      >
         Location
-      </label>
+      </button>
 
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Foster"
-          checked={selectedRole === 'Foster'}
-          onChange={handleOptionChange}
-        />
-        Foster
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Owner"
-          checked={selectedRole === 'Owner'}
-          onChange={handleOptionChange}
-        />
-        Owner
-      </label>
-
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Staff"
-          checked={selectedRole === 'Staff'}
-          onChange={handleOptionChange}
-        />
-        Staff
-      </label>
-
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Vet"
-          checked={selectedRole === 'Vet'}
-          onChange={handleOptionChange}
-        />
-        Vet
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Inventory"
-          checked={selectedRole === 'Inventory'}
-          onChange={handleOptionChange}
-        />
+      <button
+        className={`rolebutton ${selectedRole === 'Inventory' ? 'selected' : ''}`}
+        name="role"
+        value="Inventory"
+        onClick={handleOptionChange}
+      >
         Inventory
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Clinic"
-          checked={selectedRole === 'Clinic'}
-          onChange={handleOptionChange}
-        />
-        Clinic
-      </label>
-
-      <label>
-        <input
-          type="radio"
-          name="role"
-          value="Species"
-          checked={selectedRole === 'Species'}
-          onChange={handleOptionChange}
-        />
-        Species
-      </label>
+      </button>
 
 
     </div>
