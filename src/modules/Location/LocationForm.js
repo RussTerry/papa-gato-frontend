@@ -1,4 +1,4 @@
-import React from 'react';
+// LocationForm.js
 
 const LocationForm = ({
   formData,

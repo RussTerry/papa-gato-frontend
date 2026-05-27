@@ -61,7 +61,7 @@ return (
     <hr />
     
     {/* Selection Area Grid */}
-    {(selectedAction === "read" || selectedAction === "update" || selectedAction === "delete") && (
+    {(selectedAction === "read" || selectedAction === "update" || selectedAction === "delete") && ! selectedLocation && (
       <div className="select-list-wrapper">
         <SelectList
           items={locations}
@@ -74,9 +74,9 @@ return (
     )}
 
     {/* Controlled Module Input View Frame */}
-    {(selectedAction === "create" ||
-      selectedAction === "update" ||
-      selectedAction === "delete") && (
+    {/* Controlled Module Input View Frame */}
+    {(selectedAction === "create" || 
+      ((selectedAction === "update" || selectedAction === "delete") && selectedLocation)) && (
       <div className="location-form-card">
         <h3 className="location-form-title">
           {selectedAction.toUpperCase()} FORM
@@ -91,8 +91,8 @@ return (
         />
       </div>
     )}
-  </div>
-)};
+  </div> // Closes the main outer container div
+)}; // Closes the return statement cleanly
 
 
 export default Location;
