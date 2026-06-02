@@ -1,7 +1,5 @@
 // SelectList.js
 
-import React from 'react';
-
 const SelectList = ({ items, onSelect, labelFn, selectedAction, role = "items", onAction }) => {
   if (!items || items.length === 0) {
     return <p>No {role} available.</p>;

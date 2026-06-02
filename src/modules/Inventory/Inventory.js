@@ -1,160 +1,130 @@
-import React, { useState, useEffect, useRef } from 'react';
-import InventoryForm from '../../modules/Inventory/InventoryForm';
-import SelectList from '../../components/SelectList';
-import InventoryModel from '../../modules/Inventory/InventoryModel';
-import { formatDate } from '../../utils/formatters';
+// Inventory.js - Main component for managing inventory items, including CRUD operations and UI rendering.
 
-const Inventory = ({ action }) => {
-  const [inventorys, setInventorys] = useState([]);
-  const [formData, setFormData] = useState({ ...InventoryModel });
-  const [selectedInventoryId, setSelectedInventoryId] = useState(null);
-  const firstItemRef = useRef(null);
+import { useState, useEffect } from "react";
+import InventoryModel from "./InventoryModel";
+import InventoryForm from "./InventoryForm";
+import SelectList from "../../components/SelectList";
+import './Inventory.css'; 
 
-  const selectedInventory = inventorys.find((o) => o.id === selectedInventoryId) || null;
+const Inventory = ({ 
+  inventoryItems,
+  setInventoryItems,
+  locations,
+  handleActionChange, 
+  selectedAction, 
+  setSelectedAction 
+}) => {
+  const [formData, setFormData] = useState(InventoryModel);
+  const [selectedInventoryItem, setSelectedInventoryItem] = useState(null);
 
+  // Automatically clears the active selection when the top action menu shifts
   useEffect(() => {
-    if (action === 'create') {
-      setFormData({ ...InventoryModel });
-      setSelectedInventoryId(null);
-      firstItemRef.current?.focus();
-  } else if ((action === 'update' || action === 'delete') && selectedInventory) {
-    setFormData({ ...selectedInventory });
-  }
-  }, [action, selectedInventoryId, selectedInventory]);
-
-  useEffect(() => {
-    setFormData({ ...InventoryModel });         // Clear the form
-    setSelectedInventoryId(null);           // Clear selected row
-    firstItemRef.current?.focus();      // Set focus to first field (create only)
-  }, [action]);
+  // If a user clicks a new action menu option, clear out any half-filled forms
+  setFormData(InventoryModel);
+  setSelectedInventoryItem(null);
+  }, [selectedAction, setSelectedAction]); // Listens for menu toggle changes
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
   };
-  
-  const handleAdd = () => {
-  if (formData.item.trim()) {
-    setInventorys((prev) => [...prev, { ...formData, id: Date.now() }]);
-    setFormData({ ...InventoryModel });
-    firstItemRef.current?.focus();
-  } else {
-    // Optional: refocus manually if validation fails
-    firstItemRef.current?.focus();
+
+  const handleSelect = (id) => {
+    const foundItem = inventoryItems.find((item) => item.id.toString() === id.toString());
+    if (foundItem) {
+      setSelectedInventoryItem(foundItem);
+      setFormData(foundItem); 
+    }
+  };
+
+  const handleSubmit = (data) => {
+    console.log("Inventory handleSubmit fired! Action:", selectedAction);
+
+    // FIXED: Manual validation check blocks empty selections for both Create and Update
+  if ((selectedAction === "create" || selectedAction === "update") && !data.locationName) {
+    alert("Validation Error: Please choose a valid Location from the dropdown list before submitting.");
+    return; // Stops execution immediately so nothing gets saved or posted!
   }
-};
+    const todayStr = new Date().toISOString().split('T')[0];
 
-  const handleUpdate = () => {
-    console.log('handleUpdate');
-    if (!selectedInventoryId) return;
-    setInventorys((prev) =>
-      prev.map((inventory) =>
-        inventory.id === selectedInventoryId ? { ...formData, id: selectedInventoryId } : inventory
-      )
-    );
-    setSelectedInventoryId(null);
-    setFormData({ ...InventoryModel });
+    if (selectedAction === "create") {
+      const newInventoryItem = {
+        id: Date.now(), 
+        item: data.item || "",
+        quantity: data.quantity !== null && data.quantity !== "" ? Number(data.quantity) : 0,
+        locationName: data.locationName || "",
+        purchaseDate: data.purchaseDate || "",
+        expirationDate: data.expirationDate || "",
+        updateDate: todayStr, 
+        notes: data.notes || ""
+      };
+      setInventoryItems([...inventoryItems, newInventoryItem]);
+
+    } else if (selectedAction === "update" && selectedInventoryItem) {
+      const updatedInventoryItem = {
+        id: selectedInventoryItem.id, 
+        item: data.item || "",
+        quantity: data.quantity !== null && data.quantity !== "" ? Number(data.quantity) : 0,
+        locationName: data.locationName || "",
+        purchaseDate: data.purchaseDate || "",
+        expirationDate: data.expirationDate || "",
+        updateDate: todayStr, 
+        notes: data.notes || ""
+      };
+
+      setInventoryItems(
+        inventoryItems.map((item) =>
+          item.id.toString() === selectedInventoryItem.id.toString() ? updatedInventoryItem : item
+        )
+      );
+
+    } else if (selectedAction === "delete" && selectedInventoryItem) {
+      // FIXED: Clean array filtering with no reference errors
+      setInventoryItems(
+        inventoryItems.filter((item) => item.id.toString() !== selectedInventoryItem.id.toString())
+      );
+    }
+    
+    setSelectedAction("");
+    setFormData(InventoryModel);
+    setSelectedInventoryItem(null);
   };
 
-  const handleDelete = () => {
-    console.log('handleDelete');
-    if (!selectedInventoryId) return;
-    setInventorys((prev) => prev.filter((inventory) => inventory.id !== selectedInventoryId));
-    setSelectedInventoryId(null);
-    setFormData({ ...InventoryModel });
-  };
-  
   return (
-    <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Inventory Module</h2>
-
-      {/* CREATE */}
-      {action === 'create' && (
-        <InventoryForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleAdd}
-          firstFieldRef={firstItemRef}
-          setFormData={setFormData}
-          action="add"
-        />
-      )}
-
-      {/* READ */}
-{action === 'read' && (
-  <div>
-    <h3>Inventory List</h3>
-    <SelectList
-      items={inventorys}
-      labelFn={(inventory) =>
-        `${inventory.item}, ${inventory.quantity}, ${inventory.locationName}, ` +
-        `${formatDate(inventory.purchaseDate)}, ${formatDate(inventory.expirationDate)}, ` +
-        `${formatDate(inventory.updateDate)}, ${inventory.notes}`
-      }
-      action={action}
-    />
-  </div>
-)}
-
-      {/* UPDATE - List to select from */}
-      {action === 'update' && !selectedInventoryId && (
-        <div>
-          <h3>Select an Inventory to Update</h3>
-            <SelectList 
-              items={inventorys}
-              onSelect={(id) => setSelectedInventoryId(id)}
-        labelFn={(inventory) =>
-        `${inventory.item}, ${inventory.quantity}, ${inventory.locationName}, ` +
-        `${formatDate(inventory.purchaseDate)}, ${formatDate(inventory.expirationDate)}, ` +
-        `${formatDate(inventory.updateDate)}, ${inventory.notes}`
-      }
-            action={action}
-            />
+    <div className='inventory-management-container'>
+      <h2>Inventory Management</h2>
+      <hr />
+      
+      {(selectedAction === "read" || selectedAction === "update" || selectedAction === "delete") && !selectedInventoryItem && (
+        <div className="select-list-wrapper">
+          <SelectList
+            items={inventoryItems}
+            onSelect={handleSelect} 
+            labelFn={(inv) => `${inv.item} (Qty: ${inv.quantity || 0}) - ${inv.locationName || "No Location Assigned"}`}
+            selectedAction={selectedAction}
+            role="inventory items"
+          />
         </div>
       )}
 
-      {/* UPDATE - Form to update selected */}
-      {action === 'update' && selectedInventoryId && (
-        <InventoryForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleUpdate}
-          firstFieldRef={firstItemRef}
-          setFormData={setFormData}
-          action="Update"
-          role="Inventory"
-        />
-      )}
-
-      {/* DELETE - Select and Confirm */}
-      {action === 'delete' && !selectedInventoryId && (
-        <div>
-          <h3>Select an Inventory to Delete</h3>
-            <SelectList 
-              items={inventorys}
-              onSelect={(id) => setSelectedInventoryId(id)}
-      labelFn={(inventory) =>
-        `${inventory.item}, ${inventory.quantity}, ${inventory.locationName}, ` +
-        `${formatDate(inventory.purchaseDate)}, ${formatDate(inventory.expirationDate)}, ` +
-        `${formatDate(inventory.updateDate)}, ${inventory.notes}`
-      }
-              action={action}firstFieldRef={firstItemRef}
-            />
-       </div>
-      )}
-
-      {action === 'delete' && selectedInventoryId && (
-        <div>
+      {(selectedAction === "create" || 
+        ((selectedAction === "update" || selectedAction === "delete") && selectedInventoryItem)) && (
+        <div className="inventory-form-card">
+          <h3 className="inventory-form-title">
+            {selectedAction.toUpperCase()} INVENTORY ITEM
+          </h3>
+          
           <InventoryForm
             formData={formData}
-            handleChange={() => {}}
-            handleSubmit={handleDelete}
-            firstFieldRef={firstItemRef}
-            action="Confirm Delete"
-            readOnly={true}
+            handleChange={handleChange}
+            onSubmit={() => handleSubmit(formData)}
+            locations={locations}
+            action={selectedAction}
+            readOnly={selectedAction === "delete"}
           />
-          <p>Are you sure you want to delete this inventory item?</p>
-          <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
     </div>

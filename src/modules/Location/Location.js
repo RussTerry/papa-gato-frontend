@@ -1,12 +1,17 @@
-// Location.js
+// Location.js - Main component for managing locations, including CRUD operations and UI rendering.
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LocationModel from "../../modules/Location/LocationModel";
 import LocationForm from "../../modules/Location/LocationForm";
 import SelectList from "../../components/SelectList";
 import './Location.css';
 
 const Location = ({ locations, setLocations, handleActionChange, selectedAction, setSelectedAction }) => {
+  useEffect(() => {
+  setFormData(LocationModel);
+  setSelectedLocation(null);
+}, [selectedAction, setSelectedAction]);
+
   const [formData, setFormData] = useState(LocationModel);
   const [selectedLocation, setSelectedLocation] = useState(null);
 

@@ -1,0 +1,64 @@
+/* Container Layout Frame */
+.inventory-management-container {
+  text-align: center;
+}
+
+/* Isolated Grid Selection Table Wrapper */
+.select-list-wrapper {
+  padding: 1em;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+/* Narrows, Centers, and Colors the Inventory Form Card Box */
+.inventory-form-card {
+  margin-top: 2em;
+  padding: 1.5em;
+  border: 1px solid #b3d4fc;
+  border-radius: 8px;       
+  max-width: 450px;         /* Slightly wider (450px) to comfortably fit date formats */
+  margin-left: auto;        
+  margin-right: auto;       
+  text-align: left;
+  background-color: #eef6fc;
+}
+
+.inventory-form-title {
+  text-align: center;
+  margin-top: 0;
+  color: #1a4a75;
+}
+
+/* Input Field Rows inside the Form */
+.form-field-group {
+  margin: 0.8em 0;          /* Slightly more spacing for a multi-field form */
+}
+
+.form-field-group input,
+.form-field-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4em;
+}
+
+/* Form Action Buttons Centering and Theme */
+.form-action-button-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5em;
+}
+
+.form-action-submit-btn {
+  padding: 0.6em 2em;
+  background-color: #1a4a75;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.form-action-submit-btn:hover {
+  background-color: #123452;
+}

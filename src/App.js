@@ -1,21 +1,45 @@
-// Aoo.js
-
+// App.js 
+  
 import { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import CrudMenu from './components/CrudMenu';
 import RoleMenu from './components/RoleMenu';
+import Inventory from './modules/Inventory/Inventory'; 
 import Location from './modules/Location/Location';
-// (Keep your other module imports here...)
 
 function App() {
   const [selectedRole, setSelectedRole] = useState('');
   const [selectedAction, setSelectedAction] = useState('');
   
-  // 1. GLOBAL STATE: Lifted here so it never wipes out on render cycles
+  // GLOBAL STATE: Lifted here so it never wipes out on render cycles
   const [locations, setLocations] = useState([
     { id: 1, name: "Desk Drawer", notes: "Office supplies" },
     { id: 2, name: "Cabinet 4", notes: "Medical stock" },
+  ]);
+
+  // 2. ADDED: Global Inventory State with standard YYYY-MM-DD dummy dates
+  const [inventoryItems, setInventoryItems] = useState([
+    { 
+      id: 1, 
+      item: "Aspirin 500mg", 
+      quantity: 100, 
+      locationName: "Cabinet 4", 
+      purchaseDate: "2026-01-10", 
+      expirationDate: "2028-06-15", 
+      updateDate: "2026-05-30", 
+      notes: "Keep in a cool dry place" 
+    },
+    { 
+      id: 2, 
+      item: "Syringes 3ml", 
+      quantity: 250, 
+      locationName: "Desk Drawer", 
+      purchaseDate: "2026-03-22", 
+      expirationDate: "", 
+      updateDate: "2026-05-30", 
+      notes: "Box of 50 packs" 
+    },
   ]);
 
   const handleActionChange = (newAction) => {
@@ -32,7 +56,7 @@ function App() {
       
       {selectedRole && <CrudMenu handleActionChange={handleActionChange} />}
       
-      {/* 2. RENDER HOOK: Clean static assignment */}
+      {/* RENDER HOOK: Location Module */}
       {selectedRole?.toLowerCase() === 'location' && selectedAction && (
         <Location 
           locations={locations}
@@ -42,8 +66,19 @@ function App() {
           handleActionChange={handleActionChange} 
         />
       )}
+
+      {/* 3. ADDED: RENDER HOOK: Inventory Module */}
+      {selectedRole?.toLowerCase() === 'inventory' && selectedAction && (
+        <Inventory 
+          inventoryItems={inventoryItems}
+          setInventoryItems={setInventoryItems}
+          locations={locations}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+          handleActionChange={handleActionChange} 
+        />
+      )}
       
-      {/* (Add your other explicit module tags here when ready) */}
     </div>
   );
 }

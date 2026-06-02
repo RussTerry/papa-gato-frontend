@@ -1,7 +1,9 @@
+  // InventoryModel.js - A template for inventory items, defining the structure and default values for the inventory data model.
+
   const InventoryModel = {
-    id: '',
+    id: null,
     item: '',
-    quantity: '',
+    quantity: null,
     locationName: '',
     purchaseDate: '',
     expirationDate: '',
