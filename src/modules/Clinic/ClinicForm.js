@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+//ClinicForm.js
+
+import { useEffect, useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -9,7 +11,7 @@ const ClinicForm = ({
   firstFieldRef,
   action = 'Submit',
   readOnly = false,
-  rold = 'clinic'
+  role = 'clinic'
 }) => {
   const fields = ['location','date', 'notes'];
 

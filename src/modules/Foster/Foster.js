@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+// Foster.js - CRUD module for managing fosters
+
+import { useState, useEffect, useRef } from 'react';
 import Person from '../../components/Person/Person';
 import PersonForm from '../../components/Person/PersonForm';
 import SelectList from '../../components/SelectList';

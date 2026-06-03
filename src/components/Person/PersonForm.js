@@ -1,4 +1,4 @@
-import React from 'react';
+// PersonForm.js
 
 const PersonForm = ({
   formData,

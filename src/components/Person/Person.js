@@ -1,4 +1,4 @@
-import React from 'react';
+// Person.js - Reusable person data structure and form component
 
 const Person = {
   firstName: '',

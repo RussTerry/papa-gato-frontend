@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+//Donor.js - CRUD module for managing donors
+
+import { useState, useEffect, useRef } from 'react';
 import Person from '../../components/Person/PersonForm';
 import PersonForm from '../../components/Person/PersonForm';
 import SelectList from '../../components/SelectList';
