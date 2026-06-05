@@ -52,7 +52,7 @@ const Location = ({ locations, setLocations, handleActionChange, selectedAction,
 
     } else if (selectedAction === "delete" && selectedLocation) {
       setLocations(locations.filter((l) => Number(l.id) !== Number(selectedLocation.id)));
-    }
+    };
     
     // Reset workspace frame back to baseline state
     setSelectedAction("");
@@ -78,7 +78,6 @@ return (
       </div>
     )}
 
-    {/* Controlled Module Input View Frame */}
     {/* Controlled Module Input View Frame */}
     {(selectedAction === "create" || 
       ((selectedAction === "update" || selectedAction === "delete") && selectedLocation)) && (
