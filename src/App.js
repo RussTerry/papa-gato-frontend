@@ -1,12 +1,13 @@
 // App.js 
   
 import { useState } from 'react';
-import './App.css';
 import Header from './components/Header';
 import CrudMenu from './components/CrudMenu';
 import RoleMenu from './components/RoleMenu';
 import Inventory from './modules/Inventory/Inventory'; 
 import Location from './modules/Location/Location';
+import Clinic from './modules/Clinic/Clinic'; 
+import './App.css';
 
 function App() {
   const [selectedRole, setSelectedRole] = useState('');
@@ -42,6 +43,22 @@ function App() {
     },
   ]);
 
+    // 3. ADDED: Global  State with standard YYYY-MM-DD dummy dates
+   const [clinicItems, setClinicItems] = useState([
+    { 
+      id: 1, 
+      location: "Main Street Clinic", 
+      date: "2026-01-10", 
+      notes: "Selected animals by appt only" 
+    },
+    { 
+      id: 2, 
+      location: "School",
+      date: "2026-03-22", 
+      notes: "Early setup needed" 
+    },
+  ]);
+ 
   const handleActionChange = (newAction) => {
     setSelectedAction(newAction);
   };
@@ -55,7 +72,30 @@ function App() {
       }} />
       
       {selectedRole && <CrudMenu handleActionChange={handleActionChange} />}
-      
+
+      {/* RENDER HOOK: Clinic Module */}
+      {selectedRole?.toLowerCase() === 'clinic' && selectedAction && (
+        <Clinic 
+          clinicItems = {clinicItems}
+          setClinicItems = {setClinicItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+          handleActionChange={handleActionChange} 
+        />
+      )}
+
+        {/* ADDED: RENDER HOOK: Inventory Module */}
+      {selectedRole?.toLowerCase() === 'inventory' && selectedAction && (
+        <Inventory 
+          inventoryItems={inventoryItems}
+          setInventoryItems={setInventoryItems}
+          locations={locations}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+          handleActionChange={handleActionChange} 
+        />
+      )}
+
       {/* RENDER HOOK: Location Module */}
       {selectedRole?.toLowerCase() === 'location' && selectedAction && (
         <Location 
@@ -67,18 +107,6 @@ function App() {
         />
       )}
 
-      {/* 3. ADDED: RENDER HOOK: Inventory Module */}
-      {selectedRole?.toLowerCase() === 'inventory' && selectedAction && (
-        <Inventory 
-          inventoryItems={inventoryItems}
-          setInventoryItems={setInventoryItems}
-          locations={locations}
-          selectedAction={selectedAction}
-          setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange} 
-        />
-      )}
-      
     </div>
   );
 }

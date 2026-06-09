@@ -1,139 +1,145 @@
-// Clinic.js
+// Clinic.js - Main component for managing clinic items, including CRUD operations and UI rendering.
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import SelectList from '../../components/SelectList';
 import ClinicForm from '../../modules/Clinic/ClinicForm';
 import ClinicModel from '../../modules/Clinic/ClinicModel';
-import { formatDate } from '../../utils/formatters';
+import './Clinic.css';
 
-const Clinic = ({ action }) => {
-  const [clinics, setClinics] = useState([]);
-  const [formData, setFormData] = useState({ ...ClinicModel });
-  const [selectedClinicId, setSelectedClinicId] = useState(null);
-  const clinicRef = useRef(null);
+const Clinic = ({ 
+  clinicItems,
+  setClinicItems,
+  selectedAction,
+  setSelectedAction,
+  handleActionChange
+}) => {
+  const [formData, setFormData] = useState(ClinicModel);
+  const [selectedClinicItem, setSelectedClinicItem] = useState(null);
 
-  const selectedClinic = clinics.find((o) => o.id === selectedClinicId) || null;
-
+    // Automatically clears the active selection when the top action menu shifts
   useEffect(() => {
-    if (action === 'create') {
-      setFormData({ ...ClinicModel });
-      setSelectedClinicId(null);
-      clinicRef.current?.focus();
-    } else if ((action === 'update' || action === 'delete') && selectedClinic) {
-      setFormData({ ...selectedClinic });
-    }
-  }, [action, selectedClinicId, selectedClinic]);
+  // If a user clicks a new action menu option, clear out any half-filled forms
+  setFormData(ClinicModel);
+  setSelectedClinicItem(null);
+  }, [selectedAction, setSelectedAction]); // Listens for menu toggle changes
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  //  FIXED: Properly destructured 'name' from the input elements
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData((prev) => ({...prev, [name]: value 
+  }));
+};
 
-  const handleAdd = () => {
-    if (formData.date && formData.location) {
-      setClinics((prev) => [...prev, { ...formData, id: Date.now() }]);
-      setFormData({ ...ClinicModel });
-      clinicRef.current?.focus();
+    const handleSelect = (id) => {
+    const foundItem = clinicItems.find((clinicItem) => clinicItem.id.toString() === id.toString());
+    if (foundItem) {
+      setSelectedClinicItem(foundItem);
+      setFormData(foundItem); 
     }
   };
 
-  const handleUpdate = () => {
-    if (!selectedClinicId) return;
-    setClinics((prev) =>
-      prev.map((clinic) =>
-        clinic.id === selectedClinicId ? { ...formData, id: selectedClinicId } : clinic
-      )
-    );
-    setSelectedClinicId(null);
-    setFormData({ ...ClinicModel });
-  };
+    const handleSubmit = (data) => {
+      console.log("Clinic handleSubmit fired! Action:", selectedAction);
+    // Manual validation check blocks empty selections for both Create and Update
+    if ((selectedAction === "create" || selectedAction === "update") && !data.location) {
+      alert("Validation Error: Please enter a valid Location for this Clinic before submitting.");
+    return; // Stops execution immediately so nothing gets saved or posted!
+  }
 
-  const handleDelete = () => {
-    if (!selectedClinicId) return;
-    setClinics((prev) => prev.filter((clinic) => clinic.id !== selectedClinicId));
-    setSelectedClinicId(null);
-    setFormData({ ...ClinicModel });
-  };
+    if (selectedAction === "create") {
+      const newClinicItem = {
+        id: Date.now(), 
+        location: data.location || "",
+        date: data.date || "",
+        notes: data.notes || ""
+      };
+      setClinicItems([...clinicItems, newClinicItem]);
+    } 
+    else if (selectedAction === "update" && selectedClinicItem) {
+      const updatedClinicItem = {
+        id: selectedClinicItem.id, 
+        location: data.location || "",
+        date: data.date || "",
+        notes: data.notes || ""
+      };
 
+      setClinicItems(
+        clinicItems.map((item) =>
+          item.id.toString() === selectedClinicItem.id.toString() ? updatedClinicItem : item
+        )
+      );
+
+    } else if (selectedAction === "delete" && selectedClinicItem) {
+      // Clean array filtering with no reference errors
+      setClinicItems(
+        clinicItems.filter((item) => item.id.toString() !== selectedClinicItem.id.toString())
+      );
+    }
+    
+    setSelectedAction("");
+    setFormData(ClinicModel);
+    setSelectedClinicItem(null);
+  };
+  
   return (
-    <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
-      <h2>Clinic Module</h2>
+    <div className="clinic-management-container">
+      <h2>Clinic Management</h2>
+      <hr />
 
-      {action === 'create' && (
-        <ClinicForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleAdd}
-          firstFieldRef={clinicRef}
-          action="Add"
-          role="clinic"
-        />
-      )}
-
-      {action === 'read' && (
-        <div>
-          <h3>Clinic List</h3>
+      {(selectedAction === "read" || 
+        selectedAction === "update" || 
+        selectedAction === "delete") && 
+        !selectedClinicItem && (
+        <div className="select-list-wrapper">
           <SelectList
-      items={clinics}
-      labelFn={(clinic) => {
-        return `${formatDate(clinic.date)} ${clinic.location} ${clinic.notes}`;
-      }}
-      action={action}
-    />
-  </div>
-)}
-      {action === 'update' && !selectedClinicId && (
-        <div>
-          <h3>Select a Clinic to Update</h3>
-          <SelectList
-            items={clinics}
-            onSelect={(id) => setSelectedClinicId(id)}
-            labelFn={(clinic) => `${formatDate(clinic.date)} ${clinic.location}`}
-            action={action}
+            items={clinicItems}
+            onSelect={handleSelect} 
+            labelFn={(sel) => {
+              // Local simple transformation logic to match dd-MMM-YYYY
+              const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+              let displayDate = "No date";
+              
+              if (sel.date) {
+                const parts = sel.date.split('-');
+                if (parts.length === 3) {
+                  const year = parts[0];
+                  const monthIndex = parseInt(parts[1], 10) - 1;
+                  const day = parts[2];
+                  const monthName = months[monthIndex] || parts[1];
+                  displayDate = `${day}-${monthName}-${year}`;
+                } else {
+                  displayDate = sel.date;
+                }
+              }
+              return `${displayDate} - ${sel.location} - ( ${sel.notes || "No notes"} )`;
+            }}
+            selectedAction={selectedAction}
+            role="clinic items"
           />
+
         </div>
       )}
 
-      {action === 'update' && selectedClinicId && (
-        <ClinicForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleUpdate}
-          firstFieldRef={clinicRef}
-          action="Update"
-          role="clinic"
-        />
-      )}
-
-      {action === 'delete' && !selectedClinicId && (
-        <div>
-          <h3>Select a Clinic to Delete</h3>
-          <SelectList
-            items={clinics}
-            onSelect={(id) => setSelectedClinicId(id)}
-            labelFn={(clinic) => `${formatDate(clinic.date)} ${clinic.location}`}
-            action={action}
-          />
-        </div>
-      )}
-
-      {action === 'delete' && selectedClinicId && (
-        <div>
+      {(selectedAction === 'create'  ||
+        ((selectedAction === 'update' ||
+          selectedAction === 'delete') && 
+          selectedClinicItem)) && (
+        <div className="clinic-form-card">
+          <h3 className="clinic-form-title">
+            {selectedAction.toUpperCase()} CLINIC ITEM 
+          </h3>
+          
           <ClinicForm
             formData={formData}
-            handleChange={() => {}}
-            handleSubmit={handleDelete}
-            firstFieldRef={clinicRef}
-            action="Confirm Delete"
-            readOnly={true}
-            role="clinic"
+            handleChange={handleChange}
+            onSubmit={() => handleSubmit(formData)}
+            selectedAction={selectedAction}
+            readOnly={selectedAction === 'delete'}
           />
-          <p>Are you sure you want to delete this clinic?</p>
-          <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
     </div>
   );
-};
+};  
 
 export default Clinic;

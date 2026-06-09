@@ -1,0 +1,130 @@
+/* Clinic.css */
+
+/* Main Container and Wrappers */
+.clinic-management-container {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Missing Selector Added: Wraps the dropdown / list selector UI */
+.select-list-wrapper {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background-color: #f7fafc;
+  border-radius: 6px;
+  border: 1px dashed #cbd5e0;
+}
+
+.clinic-form-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+}
+
+.clinic-form-title {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  font-size: 1.2rem;
+  color: #333333;
+}
+
+/* Form Groups and Fields */
+.form-field-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field-group label {
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #4a5568;
+}
+
+/* Base Styles (First Mention: Handles look and feel) */
+.form-input-text,
+.form-input-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.form-input-textarea {
+  resize: vertical;
+}
+
+/* State Modifiers (Second Mention: Overrides base styles ONLY when disabled) */
+.form-input-text:disabled,
+.form-input-textarea:disabled {
+  background-color: #edf2f7;
+  color: #718096;
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+}
+
+/* Date Field Specific Custom Layers */
+.date-input-wrapper {
+  position: relative;
+  display: block;
+}
+
+.date-text-overlay {
+  padding-right: 2.5rem;
+}
+
+.hidden-calendar-picker {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Action Buttons */
+.form-action-button-row {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-action-submit-btn {
+  background-color: #3182ce;
+  color: #ffffff;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form-action-submit-btn:hover {
+  background-color: #2b6cb0;
+}
+
+/* FIXED: Hides default browser mask text while keeping the calendar clickable */
+.hidden-calendar-picker {
+  color: transparent;
+}
+
+/* Removes standard placeholder indicators inside webkit based engines */
+.hidden-calendar-picker::-webkit-datetime-edit-fields-wrapper,
+.hidden-calendar-picker::-webkit-datetime-edit-text,
+.hidden-calendar-picker::-webkit-datetime-edit-minute,
+.hidden-calendar-picker::-webkit-datetime-edit-hour,
+.hidden-calendar-picker::-webkit-datetime-edit-day,
+.hidden-calendar-picker::-webkit-datetime-edit-month,
+.hidden-calendar-picker::-webkit-datetime-edit-year {
+  color: transparent !important;
+}
