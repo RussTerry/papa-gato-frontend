@@ -103,7 +103,14 @@ const Inventory = ({
           <SelectList
             items={inventoryItems}
             onSelect={handleSelect} 
-            labelFn={(inv) => `${inv.item} (Qty: ${inv.quantity || 0}) - ${inv.locationName || "No Location Assigned"}`}
+            labelFn={(inv) => 
+              `${inv.item} 
+              (Qty: ${inv.quantity || 0}) - 
+              (Loc:${inv.locationName || "No Location Assigned"}) - 
+              (Purchased: ${inv.purchaseDate || "N/A"}) - 
+              (Expires: ${inv.expirationDate || "N/A"}) - 
+              (Updated: ${inv.updateDate || "N/A"})`}
+            
             selectedAction={selectedAction}
             role="inventory items"
           />

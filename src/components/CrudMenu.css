@@ -1,10 +1,10 @@
 .crudbutton {
   border: 1;
     padding: 0 20px;
-    line-height: 1.5;
+    line-height: 1.5rem;
     margin: 5px;
-    font-size: 1.5rem;
-    width: 10rem;
+    font-size: 0.8rem;
+    width: 7rem;
     text-align: center;
     color: white;
     text-shadow: 1px 1px 1px black;
@@ -16,12 +16,21 @@
         rgb(0 0 0 / 20%) 30%,
         transparent
     );
+    box-shadow:
+        inset 2px 2px 3px rgb(255 255 255 / 60%),
+        inset -2px -2px 3px rgb(0 0 0 / 60%);
 }
 
+/* Change this line */
+.crudbutton.selected { 
+  background-color: #e691ba; 
+  color: white; 
+  border: none; /* Removes the default 1px border */
+}
 hr {
     height: 10px;            /* Set the thickness */
-  background-color: black;  /* Set the color */
-/*  border: none; */            /* Removes the default 1px border */
+    background-color: black;  /* Set the color */
+    border: none; /* Removes the default 1px border */
 
 }
 

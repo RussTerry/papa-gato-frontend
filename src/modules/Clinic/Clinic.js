@@ -7,31 +7,32 @@ import ClinicModel from '../../modules/Clinic/ClinicModel';
 import './Clinic.css';
 
 const Clinic = ({ 
-  clinicItems,
-  setClinicItems,
-  selectedAction,
-  setSelectedAction,
-  handleActionChange
-}) => {
-  const [formData, setFormData] = useState(ClinicModel);
-  const [selectedClinicItem, setSelectedClinicItem] = useState(null);
-
+        clinicItems,
+        setClinicItems,
+        selectedAction,
+        setSelectedAction,
+        handleActionChange
+      }) => {
     // Automatically clears the active selection when the top action menu shifts
   useEffect(() => {
-  // If a user clicks a new action menu option, clear out any half-filled forms
-  setFormData(ClinicModel);
-  setSelectedClinicItem(null);
-  }, [selectedAction, setSelectedAction]); // Listens for menu toggle changes
+    // If a user clicks a new action menu option, clear out any half-filled forms
+    setFormData(ClinicModel);
+    setSelectedClinicItem(null);
+    }, [selectedAction, setSelectedAction]); // Listens for menu toggle changes
+
+    const [formData, setFormData] = useState(ClinicModel);
+    const [selectedClinicItem, setSelectedClinicItem] = useState(null);
+
 
   //  FIXED: Properly destructured 'name' from the input elements
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prev) => ({...prev, [name]: value 
-  }));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({...prev, [name]: value 
+    }));
 };
 
-    const handleSelect = (id) => {
-    const foundItem = clinicItems.find((clinicItem) => clinicItem.id.toString() === id.toString());
+  const handleSelect = (id) => {
+    const foundItem = clinicItems.find((c) => Number(c.id) === Number(id));
     if (foundItem) {
       setSelectedClinicItem(foundItem);
       setFormData(foundItem); 
@@ -41,7 +42,7 @@ const handleChange = (e) => {
     const handleSubmit = (data) => {
       console.log("Clinic handleSubmit fired! Action:", selectedAction);
     // Manual validation check blocks empty selections for both Create and Update
-    if ((selectedAction === "create" || selectedAction === "update") && !data.location) {
+    if (selectedAction === "create" ) {
       alert("Validation Error: Please enter a valid Location for this Clinic before submitting.");
     return; // Stops execution immediately so nothing gets saved or posted!
   }
@@ -111,7 +112,7 @@ const handleChange = (e) => {
                   displayDate = sel.date;
                 }
               }
-              return `${displayDate} - ${sel.location} - ( ${sel.notes || "No notes"} )`;
+              return `${displayDate} - (Loc: ${sel.location}) - ( ${sel.notes || "No notes"} )`;
             }}
             selectedAction={selectedAction}
             role="clinic items"

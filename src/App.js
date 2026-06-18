@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Header from './components/Header';
 import CrudMenu from './components/CrudMenu';
 import RoleMenu from './components/RoleMenu';
+import Clinic from './modules/Clinic/Clinic'; 
 import Inventory from './modules/Inventory/Inventory'; 
 import Location from './modules/Location/Location';
-import Clinic from './modules/Clinic/Clinic'; 
+import Species from './modules/Species/Species';
 import './App.css';
 
 function App() {
@@ -14,12 +15,23 @@ function App() {
   const [selectedAction, setSelectedAction] = useState('');
   
   // GLOBAL STATE: Lifted here so it never wipes out on render cycles
-  const [locations, setLocations] = useState([
-    { id: 1, name: "Desk Drawer", notes: "Office supplies" },
-    { id: 2, name: "Cabinet 4", notes: "Medical stock" },
+   // Global Clinic State with standard YYYY-MM-DD dummy dates
+   const [clinicItems, setClinicItems] = useState([
+    { 
+      id: 1, 
+      location: "Main Street Clinic", 
+      date: "2026-01-10", 
+      notes: "Selected animals by appt only" 
+    },
+    { 
+      id: 2, 
+      location: "School",
+      date: "2026-03-22", 
+      notes: "Early setup needed" 
+    },
   ]);
-
-  // 2. ADDED: Global Inventory State with standard YYYY-MM-DD dummy dates
+ 
+   // Global Inventory State with standard YYYY-MM-DD dummy dates
   const [inventoryItems, setInventoryItems] = useState([
     { 
       id: 1, 
@@ -43,22 +55,17 @@ function App() {
     },
   ]);
 
-    // 3. ADDED: Global  State with standard YYYY-MM-DD dummy dates
-   const [clinicItems, setClinicItems] = useState([
-    { 
-      id: 1, 
-      location: "Main Street Clinic", 
-      date: "2026-01-10", 
-      notes: "Selected animals by appt only" 
-    },
-    { 
-      id: 2, 
-      location: "School",
-      date: "2026-03-22", 
-      notes: "Early setup needed" 
-    },
+  const [locations, setLocations] = useState([
+    { id: 1, name: "Desk Drawer", notes: "Office supplies" },
+    { id: 2, name: "Cabinet 4", notes: "Medical stock" },
   ]);
- 
+
+  // Global Species State
+  const [speciesItems, setSpeciesItems] = useState([
+    { id: 1, name: "Domestic Cat", notes: "Common household cat" },
+    { id: 2, name: "Domestic Dog", notes: "Common household dog" },
+  ]);
+
   const handleActionChange = (newAction) => {
     setSelectedAction(newAction);
   };
@@ -71,7 +78,7 @@ function App() {
         setSelectedAction(''); // Clean workspace action frame on role switch
       }} />
       
-      {selectedRole && <CrudMenu handleActionChange={handleActionChange} />}
+      {selectedRole && <CrudMenu handleActionChange={handleActionChange} selectedAction = {selectedAction }/>}
 
       {/* RENDER HOOK: Clinic Module */}
       {selectedRole?.toLowerCase() === 'clinic' && selectedAction && (
@@ -84,7 +91,7 @@ function App() {
         />
       )}
 
-        {/* ADDED: RENDER HOOK: Inventory Module */}
+        {/* RENDER HOOK: Inventory Module */}
       {selectedRole?.toLowerCase() === 'inventory' && selectedAction && (
         <Inventory 
           inventoryItems={inventoryItems}
@@ -107,6 +114,16 @@ function App() {
         />
       )}
 
+      {/* RENDER HOOK: Species Module */}
+      {selectedRole?.toLowerCase() === 'species' && selectedAction && (
+        <Species 
+          speciesItems={speciesItems}
+          setSpeciesItems={setSpeciesItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+          handleActionChange={handleActionChange} 
+        />
+      )}
     </div>
   );
 }

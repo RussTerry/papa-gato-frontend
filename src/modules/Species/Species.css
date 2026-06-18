@@ -1,9 +1,11 @@
-/* Clinic.css */
+/* Container Layout Frame */
 
 .custom-select-list {
   list-style-type: none; 
   padding: 0;
   margin: 0;
+
+
 }
 
 /* Base style for every list row line */
@@ -14,30 +16,31 @@
   padding: 0.6em 1em;
   border-bottom: 1px solid #eaeaea;
   text-align: left;
+
 }
 
 /* ALTERNATING COLORS: Applies light background only to even rows */
 .custom-select-list-item:nth-child(even) {
   background-color: #a9b5e6; /* Soft contrasting color row overlay */
 }
+
 /* Optional hover state to make rows look interactive */
 .custom-select-list-item:hover {
   background-color: #709fce;
 }
-
-/* Main Container and Wrappers */
-.clinic-management-container {
+.species-management-container {
   text-align: center;
 }
 
-/* Missing Selector Added: Wraps the dropdown / list selector UI */
+/* Isolated Grid Selection Table Wrapper */
 .select-list-wrapper {
   padding: 1em;
   background-color: #f9f9f9;
   border-radius: 4px;
 }
 
-.clinic-form-card {
+/* Narrows, Centers, and Colors the Module Form Box */
+.species-form-card {
   margin-top: 2em;
   padding: 1.5em;
   border: 1px solid #b3d4fc;
@@ -49,13 +52,13 @@
   background-color: #eef6fc;
 }
 
-.clinic-form-title {
+.species-form-title {
   text-align: center;
   margin-top: 0;
   color: #1a4a75;
 }
 
-/* Form Groups and Fields */
+/* Input Field Rows inside the Form */
 .form-field-group {
   margin: 0.5em 0;
 }
@@ -66,30 +69,7 @@
   padding: 0.4em;
 }
 
-/* Date Field Specific Custom Layers */
-.date-input-wrapper {
-  position: relative;
-  display: block;
-}
-
-.date-text-overlay {
-  padding-right: 2.5rem;
-}
-
-.hidden-calendar-picker {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-/* Action Buttons */
+/* Form Action Buttons Centering and Theme */
 .form-action-button-row {
   display: flex;
   justify-content: center;
@@ -110,5 +90,3 @@
 .form-action-submit-btn:hover {
   background-color: #123452; /* Slightly darker shade on mouse hover */
 }
-
-

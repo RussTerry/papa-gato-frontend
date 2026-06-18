@@ -18,8 +18,7 @@ const LocationForm = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()} autoComplete="off">
-      
-      {/* DYNAMIC LOOP: Generates inputs automatically */}
+    {/* DYNAMIC LOOP: Generates inputs automatically */}
       {fields.map((field, index) => (
         <div className="form-field-group" key={field}>
           <label htmlFor={field}>
@@ -45,7 +44,6 @@ const LocationForm = ({
           {action.toUpperCase()}
         </button>
       </div>
-
     </form>
   );
 };

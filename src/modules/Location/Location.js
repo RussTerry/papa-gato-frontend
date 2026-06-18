@@ -6,7 +6,13 @@ import LocationForm from "../../modules/Location/LocationForm";
 import SelectList from "../../components/SelectList";
 import './Location.css';
 
-const Location = ({ locations, setLocations, handleActionChange, selectedAction, setSelectedAction }) => {
+const Location = ({ 
+        locations, 
+        setLocations, 
+        handleActionChange, 
+        selectedAction, 
+        setSelectedAction 
+      }) => {
   useEffect(() => {
   setFormData(LocationModel);
   setSelectedLocation(null);
@@ -18,8 +24,7 @@ const Location = ({ locations, setLocations, handleActionChange, selectedAction,
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
-      ...prev,
-      [name]: value
+      ...prev, [name]: value
     }));
   };
 
@@ -95,6 +100,7 @@ return (
         />
       </div>
     )}
+
   </div> // Closes the main outer container div
 )}; // Closes the return statement cleanly
 

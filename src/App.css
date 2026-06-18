@@ -1,3 +1,5 @@
+/* App.css */
+
 .App {
   text-align: center;
 }
@@ -11,5 +13,18 @@ s
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}/* FIXED: Hides default browser mask text while keeping the calendar clickable */
+.hidden-calendar-picker {
+  color: transparent;
 }
 
+/* Removes standard placeholder indicators inside webkit based engines */
+.hidden-calendar-picker::-webkit-datetime-edit-fields-wrapper,
+.hidden-calendar-picker::-webkit-datetime-edit-text,
+.hidden-calendar-picker::-webkit-datetime-edit-minute,
+.hidden-calendar-picker::-webkit-datetime-edit-hour,
+.hidden-calendar-picker::-webkit-datetime-edit-day,
+.hidden-calendar-picker::-webkit-datetime-edit-month,
+.hidden-calendar-picker::-webkit-datetime-edit-year {
+  color: transparent !important;
+}

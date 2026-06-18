@@ -1,4 +1,4 @@
-import React from 'react';
+// InventoryForm.js
 
 const InventoryForm = ({
   formData,

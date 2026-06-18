@@ -1,45 +1,49 @@
 //SpeciesForm.js
 
-import React from 'react';
-
 const SpeciesForm = ({
   formData,
   handleChange,
-  handleSubmit,
+  onSubmit,
   firstFieldRef,
   action = 'Submit',
   readOnly = false,
-  role = 'species'
 }) => {
+  // 1. Define the fields array to match SpeciesModel keys
+  const fields = ['name', 'notes'];
+
+  // 2. Helper to capitalize labels cleanly on screen
+  const formatLabel = (text) => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   return (
-    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-      <div style={{ margin: '0.5em 0' }}>
-        <label htmlFor="species">Species:</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          value={formData.name}
-          onChange={handleChange}
-          ref={firstFieldRef}
-          readOnly={readOnly}
-          required
-          style={{ width: '100%' }}
-        />
+    <form handleSubmit={(e) =>  e.preventDefault()} autoComplete="off">
+    {/* DYNAMIC LOOP: Generates inputs automatically */}
+      {fields.map((field, index) => (
+        <div className="form-field-group" key={field}>
+          <label htmlFor={field}>
+            {/* Custom display tweak: show 'Species' instead of 'Name' for the first field */}
+            {field === 'name' ? 'Species' : formatLabel(field)};
+          </label>
+          <input
+            id={field}
+            name={field}
+            type="text"
+            value={formData[field] || ""} // Safe fallback against undefined warnings
+            onChange={handleChange}
+            readOnly={readOnly}
+            ref={index === 0 ? firstFieldRef : null} // Dynamically attaches ref to the first field
+            required={field === 'name'} // Makes the species name mandatory
+          />
+        </div>
+      ))}
+      
+      {/* Centered Action Button Row */}
+      <div className="form-action-button-row">
+        <button type="button" onClick={() => onSubmit(formData)} className="form-action-submit-btn">
+          {action.toUpperCase()}
+        </button>
       </div>
-      <div style={{ margin: '0.5em 0' }}>
-        <label htmlFor="notes">Notes:</label>
-        <input
-          id="notes"
-          name="notes"
-          type="text"
-          value={formData.notes}
-          onChange={handleChange}
-          readOnly={readOnly}
-          style={{ width: '100%' }}
-        />
-      </div>
-      <button type="submit">{action}</button>
     </form>
   );
 };
