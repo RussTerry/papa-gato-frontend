@@ -1,0 +1,5 @@
+DONE See if management-container, form-card can be moved to App.css
+See if inline styling can be moved to css
+Put title comment in all css files
+Species and location - delete form not readonly
+Format list display for each module

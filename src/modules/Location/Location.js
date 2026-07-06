@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import LocationModel from "../../modules/Location/LocationModel";
 import LocationForm from "../../modules/Location/LocationForm";
 import SelectList from "../../components/SelectList";
-import './Location.css';
+//import './Location.css';
 
 const Location = ({ 
         locations, 
@@ -66,7 +66,7 @@ const Location = ({
   };
 
 return (
-  <div className="location-management-container">
+  <div className="module-management-container">
     <h2>Location Management</h2>
     <hr />
     
@@ -86,8 +86,8 @@ return (
     {/* Controlled Module Input View Frame */}
     {(selectedAction === "create" || 
       ((selectedAction === "update" || selectedAction === "delete") && selectedLocation)) && (
-      <div className="location-form-card">
-        <h3 className="location-form-title">
+      <div className="module-form-card">
+        <h3 className="module-form-title">
           {selectedAction.toUpperCase()} FORM
         </h3>
         

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import SelectList from '../../components/SelectList';
 import ClinicForm from '../../modules/Clinic/ClinicForm';
 import ClinicModel from '../../modules/Clinic/ClinicModel';
-import './Clinic.css';
+//import './Clinic.css';
 
 const Clinic = ({ 
         clinicItems,
@@ -83,7 +83,7 @@ const Clinic = ({
   };
   
   return (
-    <div className="clinic-management-container">
+    <div className="module-management-container">
       <h2>Clinic Management</h2>
       <hr />
 
@@ -125,8 +125,8 @@ const Clinic = ({
         ((selectedAction === 'update' ||
           selectedAction === 'delete') && 
           selectedClinicItem)) && (
-        <div className="clinic-form-card">
-          <h3 className="clinic-form-title">
+        <div className="module-form-card">
+          <h3 className="module-form-title">
             {selectedAction.toUpperCase()} CLINIC ITEM 
           </h3>
           
@@ -134,7 +134,7 @@ const Clinic = ({
             formData={formData}
             handleChange={handleChange}
             onSubmit={() => handleSubmit(formData)}
-            selectedAction={selectedAction}
+            action={selectedAction}
             readOnly={selectedAction === 'delete'}
           />
         </div>

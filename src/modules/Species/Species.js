@@ -4,7 +4,7 @@ import { useState, useEffect} from 'react';
 import SelectList from '../../components/SelectList';
 import SpeciesForm from '../../modules/Species/SpeciesForm';
 import SpeciesModel from '../../modules/Species/SpeciesModel';
-import './Species.css';
+//import './Species.css';
 
 const Species = ({
           speciesItems,
@@ -87,8 +87,8 @@ const Species = ({
       {/* Controlled Module Input View Frame */}
       {(selectedAction === 'create' ||
         ((selectedAction === 'update' ||  selectedAction === "delete")  && selectedSpecies)) && (
-        <div className= "location-form-card">
-          <h3 className="location-form-title">
+        <div className= "module-form-card">
+          <h3 className="module-form-title">
             {selectedAction.toUpperCase()} FORM
           </h3>
 

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import CrudMenu from './components/CrudMenu';
 import RoleMenu from './components/RoleMenu';
+import Animal from './modules/Animal/Animal';
 import Clinic from './modules/Clinic/Clinic'; 
 import Inventory from './modules/Inventory/Inventory'; 
 import Location from './modules/Location/Location';
@@ -15,7 +16,48 @@ function App() {
   const [selectedAction, setSelectedAction] = useState('');
   
   // GLOBAL STATE: Lifted here so it never wipes out on render cycles
-   // Global Clinic State with standard YYYY-MM-DD dummy dates
+
+  // Global Clinic State with standard YYYY-MM-DD dummy dates
+  const [animalItems, setAnimalItems] = useState([
+    {
+      id: 101,
+      name: "Luna",
+      speciesName: "Cat",
+      breed: "Siamese",
+      age: 3,
+      weight: 9,
+      gender: "F",
+      color: "Seal Point",
+      description: "Very vocal and friendly, loves shoulder rides.",
+      notes: "Requires a wet-food-only diet due to hydration issues."
+    },
+    {
+      id: 102,
+      name: "Rocky",
+      speciesName: "Dog",
+      breed: "Boxer",
+      age: 5,
+      weight: 65,
+      gender: "M",
+      color: "Fawn/White",
+      description: "High energy, loves chew toys, knows basic commands.",
+      notes: "Slight skin allergy to low-grade grain kibble."
+    },
+    {
+      id: 103,
+      name: "Oliver",
+      speciesName: "Rabbit",
+      breed: "Holland Lop",
+      age: 1,
+      weight: 4,
+      gender: "M",
+      color: "Grey",
+      description: "Calm demeanor, comfortable around gentle children.",
+      notes: "Nails were trimmed recently at intake check."
+    }
+  ]);
+
+  // Global Clinic State with standard YYYY-MM-DD dummy dates
    const [clinicItems, setClinicItems] = useState([
     { 
       id: 1, 
@@ -62,8 +104,9 @@ function App() {
 
   // Global Species State
   const [speciesItems, setSpeciesItems] = useState([
-    { id: 1, name: "Domestic Cat", notes: "Common household cat" },
-    { id: 2, name: "Domestic Dog", notes: "Common household dog" },
+    { id: 1, name: "Cat", notes: "Common household cat" },
+    { id: 2, name: "Dog", notes: "Common household dog" },
+    { id: 3, name: "Rabbit", notes: "Small domestic lagomorphs" },
   ]);
 
   const handleActionChange = (newAction) => {
@@ -79,7 +122,17 @@ function App() {
       }} />
       
       {selectedRole && <CrudMenu handleActionChange={handleActionChange} selectedAction = {selectedAction }/>}
-
+            {/* RENDER HOOK: Animal Module */}
+      {selectedRole?.toLowerCase() === 'animal' && selectedAction && (
+        <Animal 
+          animalItems={animalItems}
+          setAnimalItems={setAnimalItems}
+          species={speciesItems} /* Maps your species array down to the module */
+          handleActionChange={handleActionChange} 
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
+      )}
       {/* RENDER HOOK: Clinic Module */}
       {selectedRole?.toLowerCase() === 'clinic' && selectedAction && (
         <Clinic 
@@ -124,6 +177,7 @@ function App() {
           handleActionChange={handleActionChange} 
         />
       )}
+
     </div>
   );
 }

@@ -1,40 +1,8 @@
 /* Clinic.css */
 
-.custom-select-list {
-  list-style-type: none; 
-  padding: 0;
-  margin: 0;
-}
-
-/* Base style for every list row line */
-.custom-select-list-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Spreads out label text and select button */
-  padding: 0.6em 1em;
-  border-bottom: 1px solid #eaeaea;
-  text-align: left;
-}
-
-/* ALTERNATING COLORS: Applies light background only to even rows */
-.custom-select-list-item:nth-child(even) {
-  background-color: #a9b5e6; /* Soft contrasting color row overlay */
-}
-/* Optional hover state to make rows look interactive */
-.custom-select-list-item:hover {
-  background-color: #709fce;
-}
-
 /* Main Container and Wrappers */
 .clinic-management-container {
   text-align: center;
-}
-
-/* Missing Selector Added: Wraps the dropdown / list selector UI */
-.select-list-wrapper {
-  padding: 1em;
-  background-color: #f9f9f9;
-  border-radius: 4px;
 }
 
 .clinic-form-card {
@@ -54,61 +22,3 @@
   margin-top: 0;
   color: #1a4a75;
 }
-
-/* Form Groups and Fields */
-.form-field-group {
-  margin: 0.5em 0;
-}
-
-.form-field-group input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.4em;
-}
-
-/* Date Field Specific Custom Layers */
-.date-input-wrapper {
-  position: relative;
-  display: block;
-}
-
-.date-text-overlay {
-  padding-right: 2.5rem;
-}
-
-.hidden-calendar-picker {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-/* Action Buttons */
-.form-action-button-row {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5em;
-}
-
-.form-action-submit-btn {
-  padding: 0.6em 2em;
-  background-color: #1a4a75;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1em;
-}
-
-.form-action-submit-btn:hover {
-  background-color: #123452; /* Slightly darker shade on mouse hover */
-}
-
-

@@ -106,7 +106,9 @@ const ClinicForm = ({
       })}
 
       <div className="form-action-button-row">
-        <button type="button" onClick={() => onSubmit()} className="form-action-submit-btn">
+        <button 
+          type="button" 
+          onClick={() => onSubmit()} className="form-action-submit-btn">
           {action.toUpperCase()}
         </button>
       </div>

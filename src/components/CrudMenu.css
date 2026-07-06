@@ -27,10 +27,10 @@
   color: white; 
   border: none; /* Removes the default 1px border */
 }
+
 hr {
     height: 10px;            /* Set the thickness */
     background-color: black;  /* Set the color */
     border: none; /* Removes the default 1px border */
-
 }
 

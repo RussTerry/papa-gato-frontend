@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import InventoryModel from "./InventoryModel";
 import InventoryForm from "./InventoryForm";
 import SelectList from "../../components/SelectList";
-import './Inventory.css'; 
+//import './Inventory.css'; 
 
 const Inventory = ({ 
   inventoryItems,
@@ -94,7 +94,7 @@ const Inventory = ({
   };
 
   return (
-    <div className='inventory-management-container'>
+    <div className='module-management-container'>
       <h2>Inventory Management</h2>
       <hr />
       
@@ -119,8 +119,8 @@ const Inventory = ({
 
       {(selectedAction === "create" || 
         ((selectedAction === "update" || selectedAction === "delete") && selectedInventoryItem)) && (
-        <div className="inventory-form-card">
-          <h3 className="inventory-form-title">
+        <div className="module-form-card">
+          <h3 className="module-form-title">
             {selectedAction.toUpperCase()} INVENTORY ITEM
           </h3>
           
