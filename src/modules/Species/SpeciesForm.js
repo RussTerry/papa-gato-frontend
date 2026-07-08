@@ -25,7 +25,7 @@ const SpeciesForm = ({
             {/* Custom display tweak: show 'Species' instead of 'Name' for the first field */}
             {field === 'name' ? 'Species' : formatLabel(field)};
           </label>
-          <input
+          <input className="form-field-group-input"
             id={field}
             name={field}
             type="text"

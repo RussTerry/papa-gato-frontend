@@ -20,14 +20,14 @@ const AnimalForm = ({
     <form onSubmit={(e) => e.preventDefault()} autoComplete="off">
       {fields.map((field, index) => {
         return (
-          <div className="form-field-group" key={field} style={{ marginBottom: "1em" }}>
+          <div className="form-field-group" key={field}>
             <label htmlFor={field}>
               {field === 'speciesName' ? 'Species Name' : formatLabel(field)}:
             </label>
 
             {field === 'notes' ? (
               /* Notes textarea field */
-              <textarea
+              <textarea className="form-field-grouptextarea"
                 id={field}
                 name={field}
                 rows="4"
@@ -35,18 +35,16 @@ const AnimalForm = ({
                 onChange={handleChange}
                 readOnly={readOnly}
                 disabled={readOnly}
-                style={{ width: '100%', boxSizing: 'border-box', padding: '0.4em', resize: 'vertical' }}
               />
             ) : field === 'speciesName' ? (
               /* Dropdown Select menu for Species validation */
-              <select
+              <select className="form-field-group-select"
                 id={field}
                 name={field}
                 value={formData[field] || ""}
                 onChange={handleChange}
                 disabled={readOnly}
                 required
-                style={{ width: '100%', boxSizing: 'border-box', padding: '0.4em' }}
               >
                 <option value="">Select a species</option>
                 {species.map((spec) => (
@@ -57,14 +55,13 @@ const AnimalForm = ({
               </select>
             ) : field === 'gender' ? (
               /* NEW ADDITION: Dropdown Select menu for Gender */
-              <select
+              <select className="form-field-group-select"
                 id={field}
                 name={field}
                 value={formData[field] || ""}
                 onChange={handleChange}
                 disabled={readOnly}
                 required
-                style={{ width: '100%', boxSizing: 'border-box', padding: '0.4em' }}
               >
                 <option value="">Select gender</option>
                 <option value="M">M</option>
@@ -72,7 +69,7 @@ const AnimalForm = ({
               </select>
             ) : (
               /* Standard inputs for all remaining text/number fields */
-              <input
+              <input cllassName="form-field-group-input"
                 ref={(index === 0 && firstFieldRef) ? firstFieldRef : undefined}
                 id={field}
                 name={field}
@@ -81,7 +78,6 @@ const AnimalForm = ({
                 onChange={handleChange}
                 readOnly={readOnly}
                 disabled={readOnly}
-                style={{ width: '100%', boxSizing: 'border-box', padding: '0.4em' }}
               />
             )
             }
@@ -90,11 +86,10 @@ const AnimalForm = ({
       })}
 
       {/* Form Submission Button Block */}
-      <div className="form-action-button-row" style={{ marginTop: '1.5em' }}>
+      <div className="form-action-button-row">
         <button 
           type="button" 
-          onClick={onSubmit} className="form-action-submit-button"
-          style={{ padding: '0.6em 2em', cursor: 'pointer' }}>
+          onClick={() => onSubmit()} className="form-action-submit-btn">
           {action.toUpperCase()}
         </button>
       </div>

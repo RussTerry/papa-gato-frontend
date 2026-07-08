@@ -13,7 +13,7 @@ const SelectList = ({ items, onSelect, labelFn, selectedAction, role = "items", 
         <li key={item.id} className="custom-select-list-item">
           <span>{labelFn(item)}</span>
           {(selectedAction === 'update' || selectedAction === 'delete') && (
-             <button onClick={() => onSelect(item.id)} style={{ marginLeft: '1em' }}>
+             <button className="custom-select-list-button" onClick={() => onSelect(item.id)}>
               {selectedAction}
             </button>
           )}

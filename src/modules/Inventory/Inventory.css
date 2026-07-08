@@ -1,23 +1,4 @@
 
-.inventory-management-container {
-  text-align: center;
-}
 
-/* Narrows, Centers, and Colors the Inventory Form Card Box */
-.inventory-form-card {
-  margin-top: 2em;
-  padding: 1.5em;
-  border: 1px solid #b3d4fc;
-  border-radius: 8px;       
-  max-width: 450px;         /* Slightly wider (450px) to comfortably fit date formats */
-  margin-left: auto;        
-  margin-right: auto;       
-  text-align: left;
-  background-color: #eef6fc;
-}
 
-.inventory-form-title {
-  text-align: center;
-  margin-top: 0;
-  color: #1a4a75;
-}
+

@@ -25,7 +25,7 @@ const LocationForm = ({
             {/* Custom display tweak: show 'Location' instead of 'Name' for the first field */}
             {field === 'name' ? 'Location' : formatLabel(field)}:
           </label>
-          <input
+          <input className="form-field-group-input"
             id={field}
             name={field}
             type="text"

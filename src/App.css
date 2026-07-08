@@ -106,6 +106,10 @@ s
   text-align: left;
 }
 
+.custom-select-list-button {
+  margin-left: '1em'
+}
+
 /* ALTERNATING COLORS: Applies light background only to even rows */
 .custom-select-list-item:nth-child(even) {
   background-color: #a9b5e6; /* Soft contrasting color row overlay */

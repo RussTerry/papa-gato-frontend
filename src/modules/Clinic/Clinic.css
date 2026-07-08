@@ -1,24 +1,2 @@
 /* Clinic.css */
 
-/* Main Container and Wrappers */
-.clinic-management-container {
-  text-align: center;
-}
-
-.clinic-form-card {
-  margin-top: 2em;
-  padding: 1.5em;
-  border: 1px solid #b3d4fc;
-  border-radius: 8px;       
-  max-width: 400px;         
-  margin-left: auto;        
-  margin-right: auto;       
-  text-align: left;
-  background-color: #eef6fc;
-}
-
-.clinic-form-title {
-  text-align: center;
-  margin-top: 0;
-  color: #1a4a75;
-}
