@@ -4,34 +4,49 @@ const ClinicForm = ({
   formData,
   handleChange,
   onSubmit,
-  action = 'Submit',
+  action = "Submit",
   readOnly = false,
 }) => {
-  const fields = ['location','date', 'notes'];
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const fields = ["location", "date", "notes"];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
   const formatDbDateToScreen = (dbDate) => {
     if (!dbDate) return "";
-    const parts = dbDate.split('-'); 
+    const parts = dbDate.split("-");
     if (parts.length !== 3) return dbDate;
     const year = parts[0];
     const monthIndex = parseInt(parts[1], 10) - 1;
     const day = parts[2];
     const monthName = months[monthIndex] || parts[1];
-    return `${day}-${monthName}-${year}`; 
+    return `${day}-${monthName}-${year}`;
   };
 
   const handleDateChangeWrapper = (e) => {
     const { name, value } = e.target;
-    const parts = value.split('-');
+    const parts = value.split("-");
     if (parts.length === 3) {
-      const day = parts[0].padStart(2, '0');
+      const day = parts[0].padStart(2, "0");
       const monthStr = parts[1];
       const year = parts[2];
-      const monthIndex = months.findIndex(m => m.toLowerCase() === monthStr.toLowerCase());
+      const monthIndex = months.findIndex(
+        (m) => m.toLowerCase() === monthStr.toLowerCase(),
+      );
       if (monthIndex !== -1) {
-        const monthNum = String(monthIndex + 1).padStart(2, '0');
-        const dbFormattedDate = `${year}-${monthNum}-${day}`; 
+        const monthNum = String(monthIndex + 1).padStart(2, "0");
+        const dbFormattedDate = `${year}-${monthNum}-${day}`;
         handleChange({ target: { name, value: dbFormattedDate } });
         return;
       }
@@ -45,17 +60,21 @@ const ClinicForm = ({
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} autoComplete="off" className="clinic-crud-form">
+    <form
+      onSubmit={(e) => e.preventDefault()}
+      autoComplete="off"
+      className="clinic-crud-form"
+    >
       {fields.map((field, index) => {
-        const isDateField = field.toLowerCase().includes('date');
-        
+        const isDateField = field.toLowerCase().includes("date");
+
         return (
           <div className="form-field-group" key={field}>
             <label htmlFor={field}>
-              {field === 'location' ? 'Location' : formatLabel(field)}:
+              {field === "location" ? "Location" : formatLabel(field)}:
             </label>
-            
-            {field === 'notes' ? (
+
+            {field === "notes" ? (
               <textarea
                 id={field}
                 name={field}
@@ -83,7 +102,11 @@ const ClinicForm = ({
                   <input
                     type="date"
                     value={formData[field] || ""}
-                    onChange={(e) => handleChange({ target: { name: field, value: e.target.value } })}
+                    onChange={(e) =>
+                      handleChange({
+                        target: { name: field, value: e.target.value },
+                      })
+                    }
                     className="hidden-calendar-picker"
                   />
                 )}
@@ -97,7 +120,7 @@ const ClinicForm = ({
                 onChange={handleChange}
                 readOnly={readOnly}
                 disabled={readOnly}
-                required={field === 'location'}
+                required={field === "location"}
                 className="form-input-text"
               />
             )}
@@ -106,9 +129,11 @@ const ClinicForm = ({
       })}
 
       <div className="form-action-button-row">
-        <button  
-          type="button" 
-          onClick={() => onSubmit()} className="form-action-submit-btn">
+        <button
+          type="button"
+          onClick={() => onSubmit()}
+          className="form-action-submit-btn"
+        >
           {action.toUpperCase()}
         </button>
       </div>

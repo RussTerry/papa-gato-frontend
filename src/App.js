@@ -1,20 +1,21 @@
-// App.js 
-  
-import { useState } from 'react';
-import Header from './components/Header';
-import CrudMenu from './components/CrudMenu';
-import RoleMenu from './components/RoleMenu';
-import Animal from './modules/Animal/Animal';
-import Clinic from './modules/Clinic/Clinic'; 
-import Inventory from './modules/Inventory/Inventory'; 
-import Location from './modules/Location/Location';
-import Species from './modules/Species/Species';
-import './App.css';
+// App.js
+
+import { useState } from "react";
+import Header from "./components/Header";
+import CrudMenu from "./components/CrudMenu";
+import RoleMenu from "./components/RoleMenu";
+import Animal from "./modules/Animal/Animal";
+import Clinic from "./modules/Clinic/Clinic";
+import Inventory from "./modules/Inventory/Inventory";
+import Location from "./modules/Location/Location";
+import Owner from "./modules/Owner/Owner";
+import Species from "./modules/Species/Species";
+import "./App.css";
 
 function App() {
-  const [selectedRole, setSelectedRole] = useState('');
-  const [selectedAction, setSelectedAction] = useState('');
-  
+  const [selectedRole, setSelectedRole] = useState("");
+  const [selectedAction, setSelectedAction] = useState("");
+
   // GLOBAL STATE: Lifted here so it never wipes out on render cycles
 
   // Global Clinic State with standard YYYY-MM-DD dummy dates
@@ -29,7 +30,7 @@ function App() {
       gender: "F",
       color: "Seal Point",
       description: "Very vocal and friendly, loves shoulder rides.",
-      notes: "Requires a wet-food-only diet due to hydration issues."
+      notes: "Requires a wet-food-only diet due to hydration issues.",
     },
     {
       id: 102,
@@ -41,7 +42,7 @@ function App() {
       gender: "M",
       color: "Fawn/White",
       description: "High energy, loves chew toys, knows basic commands.",
-      notes: "Slight skin allergy to low-grade grain kibble."
+      notes: "Slight skin allergy to low-grade grain kibble.",
     },
     {
       id: 103,
@@ -53,47 +54,47 @@ function App() {
       gender: "M",
       color: "Grey",
       description: "Calm demeanor, comfortable around gentle children.",
-      notes: "Nails were trimmed recently at intake check."
-    }
+      notes: "Nails were trimmed recently at intake check.",
+    },
   ]);
 
   // Global Clinic State with standard YYYY-MM-DD dummy dates
-   const [clinicItems, setClinicItems] = useState([
-    { 
-      id: 1, 
-      location: "Main Street Clinic", 
-      date: "2026-01-10", 
-      notes: "Selected animals by appt only" 
+  const [clinicItems, setClinicItems] = useState([
+    {
+      id: 1,
+      location: "Main Street Clinic",
+      date: "2026-01-10",
+      notes: "Selected animals by appt only",
     },
-    { 
-      id: 2, 
+    {
+      id: 2,
       location: "School",
-      date: "2026-03-22", 
-      notes: "Early setup needed" 
+      date: "2026-03-22",
+      notes: "Early setup needed",
     },
   ]);
- 
-   // Global Inventory State with standard YYYY-MM-DD dummy dates
+
+  // Global Inventory State with standard YYYY-MM-DD dummy dates
   const [inventoryItems, setInventoryItems] = useState([
-    { 
-      id: 1, 
-      item: "Aspirin 500mg", 
-      quantity: 100, 
-      locationName: "Cabinet 4", 
-      purchaseDate: "2026-01-10", 
-      expirationDate: "2028-06-15", 
-      updateDate: "2026-05-30", 
-      notes: "Keep in a cool dry place" 
+    {
+      id: 1,
+      item: "Aspirin 500mg",
+      quantity: 100,
+      locationName: "Cabinet 4",
+      purchaseDate: "2026-01-10",
+      expirationDate: "2028-06-15",
+      updateDate: "2026-05-30",
+      notes: "Keep in a cool dry place",
     },
-    { 
-      id: 2, 
-      item: "Syringes 3ml", 
-      quantity: 250, 
-      locationName: "Desk Drawer", 
-      purchaseDate: "2026-03-22", 
-      expirationDate: "", 
-      updateDate: "2026-05-30", 
-      notes: "Box of 50 packs" 
+    {
+      id: 2,
+      item: "Syringes 3ml",
+      quantity: 250,
+      locationName: "Desk Drawer",
+      purchaseDate: "2026-03-22",
+      expirationDate: "",
+      updateDate: "2026-05-30",
+      notes: "Box of 50 packs",
     },
   ]);
 
@@ -116,68 +117,87 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <RoleMenu onSelectionChange={(value) => {
-        setSelectedRole(value);
-        setSelectedAction(''); // Clean workspace action frame on role switch
-      }} />
-      
-      {selectedRole && <CrudMenu handleActionChange={handleActionChange} selectedAction = {selectedAction }/>}
-            {/* RENDER HOOK: Animal Module */}
-      {selectedRole?.toLowerCase() === 'animal' && selectedAction && (
-        <Animal 
+      <RoleMenu
+        onSelectionChange={(value) => {
+          setSelectedRole(value);
+          setSelectedAction(""); // Clean workspace action frame on role switch
+        }}
+      />
+
+      {selectedRole && (
+        <CrudMenu
+          handleActionChange={handleActionChange}
+          selectedAction={selectedAction}
+        />
+      )}
+      {/* RENDER HOOK: Animal Module */}
+      {selectedRole?.toLowerCase() === "animal" && selectedAction && (
+        <Animal
           animalItems={animalItems}
           setAnimalItems={setAnimalItems}
-          species={speciesItems} /* Maps your species array down to the module */
-          handleActionChange={handleActionChange} 
+          species={
+            speciesItems
+          } /* Maps your species array down to the module */
+          handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
         />
       )}
       {/* RENDER HOOK: Clinic Module */}
-      {selectedRole?.toLowerCase() === 'clinic' && selectedAction && (
-        <Clinic 
-          clinicItems = {clinicItems}
-          setClinicItems = {setClinicItems}
+      {selectedRole?.toLowerCase() === "clinic" && selectedAction && (
+        <Clinic
+          clinicItems={clinicItems}
+          setClinicItems={setClinicItems}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange} 
+          handleActionChange={handleActionChange}
         />
       )}
 
-        {/* RENDER HOOK: Inventory Module */}
-      {selectedRole?.toLowerCase() === 'inventory' && selectedAction && (
-        <Inventory 
+      {/* RENDER HOOK: Inventory Module */}
+      {selectedRole?.toLowerCase() === "inventory" && selectedAction && (
+        <Inventory
           inventoryItems={inventoryItems}
           setInventoryItems={setInventoryItems}
           locations={locations}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange} 
+          handleActionChange={handleActionChange}
         />
       )}
 
       {/* RENDER HOOK: Location Module */}
-      {selectedRole?.toLowerCase() === 'location' && selectedAction && (
-        <Location 
+      {selectedRole?.toLowerCase() === "location" && selectedAction && (
+        <Location
           locations={locations}
           setLocations={setLocations}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange} 
+          handleActionChange={handleActionChange}
+        />
+      )}
+
+      {/* RENDER HOOK: Owner Module */}
+      {selectedRole?.toLowerCase() === "owner" && selectedAction && (
+        <Owner
+          ownerItems={ownerItems}
+          setOwnerItems={setOwnerItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+          handleActionChange={handleActionChange}
         />
       )}
 
       {/* RENDER HOOK: Species Module */}
-      {selectedRole?.toLowerCase() === 'species' && selectedAction && (
-        <Species 
+      {selectedRole?.toLowerCase() === "species" && selectedAction && (
+        <Species
           speciesItems={speciesItems}
           setSpeciesItems={setSpeciesItems}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange} 
+          handleActionChange={handleActionChange}
         />
       )}
-
     </div>
   );
 }

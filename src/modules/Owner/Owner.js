@@ -1,30 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Person from '../../components/Person/Person';
-import PersonForm from '../../components/Person/PersonForm';
-import SelectList from '../../components/SelectList';
+import { useState, useEffect, useRef } from "react";
+import Person from "../../components/Person/Person";
+import PersonForm from "../../components/Person/PersonForm";
+import SelectList from "../../components/SelectList";
 
-const Owner = ({ action }) => {
-  const [owners, setOwners] = useState([]);
+const Owner = ({ 
+  ownerItems, 
+  setOwnerItems, 
+  selectedAction, 
+  setSelectedAction,
+  handleActionChange, 
+}) => {
+  
   const [formData, setFormData] = useState({ ...Person });
   const [selectedOwnerId, setSelectedOwnerId] = useState(null);
   const firstNameRef = useRef(null);
-
   const selectedOwner = owners.find((o) => o.id === selectedOwnerId) || null;
 
   useEffect(() => {
-    if (action === 'create') {
       setFormData({ ...Person });
       setSelectedOwnerId(null);
       firstNameRef.current?.focus();
-  } else if ((action === 'update' || action === 'delete') && selectedOwner) {
-    setFormData({ ...selectedOwner });
-  }
-  }, [action, selectedOwnerId, selectedOwner]);
+    } else if ((action === "update" || action === "delete") && selectedOwner) {
+      setFormData({ ...selectedOwner });
+    }
+  }, [selectedAction, setSelectedAction]);
 
   useEffect(() => {
-    setFormData({ ...Person });         // Clear the form
-    setSelectedOwnerId(null);           // Clear selected row
-    firstNameRef.current?.focus();      // Set focus to first field (create only)
+    setFormData({ ...Person }); // Clear the form
+    setSelectedOwnerId(null); // Clear selected row
+    firstNameRef.current?.focus(); // Set focus to first field (create only)
   }, [action]);
 
   const handleChange = (e) => {
@@ -32,7 +36,6 @@ const Owner = ({ action }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  
   const handleAdd = () => {
     if (formData.firstName.trim()) {
       setOwners((prev) => [...prev, { ...formData, id: Date.now() }]);
@@ -45,8 +48,10 @@ const Owner = ({ action }) => {
     if (!selectedOwnerId) return;
     setOwners((prev) =>
       prev.map((owner) =>
-        owner.id === selectedOwnerId ? { ...formData, id: selectedOwnerId } : owner
-      )
+        owner.id === selectedOwnerId
+          ? { ...formData, id: selectedOwnerId }
+          : owner,
+      ),
     );
     setSelectedOwnerId(null);
     setFormData({ ...Person });
@@ -56,15 +61,15 @@ const Owner = ({ action }) => {
     if (!selectedOwnerId) return;
     setOwners((prev) => prev.filter((owner) => owner.id !== selectedOwnerId));
     setSelectedOwnerId(null);
-    setFormData({ ...Location });
+    setFormData({ ...Person });
   };
 
   return (
-    <div style={{ padding: '1em', maxWidth: '600px', margin: 'auto' }}>
+    <div style={{ padding: "1em", maxWidth: "600px", margin: "auto" }}>
       <h2>Owner Module</h2>
 
       {/* CREATE */}
-      {action === 'create' && (
+      {action === "create" && (
         <PersonForm
           formData={formData}
           handleChange={handleChange}
@@ -75,33 +80,35 @@ const Owner = ({ action }) => {
       )}
 
       {/* READ */}
-      {action === 'read' && (
+      {action === "read" && (
         <div>
           <h3>Owner List</h3>
-            <SelectList
-              items={owners}
-              labelFn={(owner) =>  `${owner.firstName} ${owner.lastName} - 
+          <SelectList
+            items={owners}
+            labelFn={(owner) => `${owner.firstName} ${owner.lastName} - 
               ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
-              action={action}
-            />
+            action={action}
+          />
         </div>
       )}
 
       {/* UPDATE - List to select from */}
-      {action === 'update' && !selectedOwnerId && (
+      {action === "update" && !selectedOwnerId && (
         <div>
           <h3>Select an Owner to Update</h3>
-            <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
-              action={action}
-            />
+          <SelectList
+            items={owners}
+            onSelect={(id) => setSelectedOwnerId(id)}
+            labelFn={(owner) =>
+              `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`
+            }
+            action={action}
+          />
         </div>
       )}
 
       {/* UPDATE - Form to update selected */}
-      {action === 'update' && selectedOwnerId && (
+      {action === "update" && selectedOwnerId && (
         <PersonForm
           formData={formData}
           handleChange={handleChange}
@@ -113,19 +120,22 @@ const Owner = ({ action }) => {
       )}
 
       {/* DELETE - Select and Confirm */}
-      {action === 'delete' && !selectedOwnerId && (
+      {action === "delete" && !selectedOwnerId && (
         <div>
           <h3>Select an Owner to Delete</h3>
-            <SelectList 
-              items={owners}
-              onSelect={(id) => setSelectedOwnerId(id)}
-              labelFn={(owner) => `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
-              action={action}firstFieldRef={firstNameRef}
-            />
-       </div>
+          <SelectList
+            items={owners}
+            onSelect={(id) => setSelectedOwnerId(id)}
+            labelFn={(owner) =>
+              `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`
+            }
+            action={action}
+            firstFieldRef={firstNameRef}
+          />
+        </div>
       )}
 
-      {action === 'delete' && selectedOwnerId && (
+      {action === "delete" && selectedOwnerId && (
         <div>
           <PersonForm
             formData={formData}

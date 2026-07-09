@@ -1,23 +1,22 @@
 // Species,js
 
-import { useState, useEffect} from 'react';
-import SelectList from '../../components/SelectList';
-import SpeciesForm from '../../modules/Species/SpeciesForm';
-import SpeciesModel from '../../modules/Species/SpeciesModel';
+import { useState, useEffect } from "react";
+import SelectList from "../../components/SelectList";
+import SpeciesForm from "../../modules/Species/SpeciesForm";
+import SpeciesModel from "../../modules/Species/SpeciesModel";
 //import './Species.css';
 
 const Species = ({
-          speciesItems,
-          setSpeciesItems,
-          selectedAction,
-          setSelectedAction,
-          handleActionChange,
-          
-       }) => {
-          useEffect(() => {
-            setFormData(SpeciesModel);
-            setSelectedSpecies(null);
-          }, [selectedAction, setSelectedAction]);
+  speciesItems,
+  setSpeciesItems,
+  selectedAction,
+  setSelectedAction,
+  handleActionChange,
+}) => {
+  useEffect(() => {
+    setFormData(SpeciesModel);
+    setSelectedSpecies(null);
+  }, [selectedAction, setSelectedAction]);
 
   const [formData, setFormData] = useState(SpeciesModel);
   const [selectedSpecies, setSelectedSpecies] = useState(null);
@@ -25,7 +24,8 @@ const Species = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
-      ...prev, [name]: value
+      ...prev,
+      [name]: value,
     }));
   };
 
@@ -42,23 +42,25 @@ const Species = ({
       const newSpecies = {
         id: Date.now(),
         name: data.name || "",
-        notes: data.notes || ""
+        notes: data.notes || "",
       };
       setSpeciesItems([...speciesItems, newSpecies]);
-
     } else if (selectedAction === "update" && selectedSpecies) {
       const updatedSpecies = {
         id: selectedSpecies.id,
         name: data.name || "",
-        notes: data.notes || ""
+        notes: data.notes || "",
       };
       setSpeciesItems(
-        speciesItems.map((s) => Number(s.id) === Number(selectedSpecies.id) ? updatedSpecies : s)
+        speciesItems.map((s) =>
+          Number(s.id) === Number(selectedSpecies.id) ? updatedSpecies : s,
+        ),
       );
-
     } else if (selectedAction === "delete" && selectedSpecies) {
-      setSpeciesItems(speciesItems.filter((s) => Number(s.id) !== Number(selectedSpecies.id)));
-    };
+      setSpeciesItems(
+        speciesItems.filter((s) => Number(s.id) !== Number(selectedSpecies.id)),
+      );
+    }
 
     // Reset workspace frame back to baseline state
     setSelectedAction("");
@@ -72,37 +74,43 @@ const Species = ({
       <hr />
 
       {/* Selection Area Grid */}
-      {(selectedAction === 'read' || selectedAction === 'update' || selectedAction === 'delete') && !selectedSpecies &&  (
-        <div className="select-list-wrapper">
-          <SelectList
-            items={speciesItems}
-            onSelect= {handleSelect}
-            labelFn={(species) => `${species.name} (${species.notes || "no notes"})`}
-            selectedAction={selectedAction}
-            role="species"
-          />
-        </div>
-      )}
+      {(selectedAction === "read" ||
+        selectedAction === "update" ||
+        selectedAction === "delete") &&
+        !selectedSpecies && (
+          <div className="select-list-wrapper">
+            <SelectList
+              items={speciesItems}
+              onSelect={handleSelect}
+              labelFn={(species) =>
+                `${species.name} (${species.notes || "no notes"})`
+              }
+              selectedAction={selectedAction}
+              role="species"
+            />
+          </div>
+        )}
 
       {/* Controlled Module Input View Frame */}
-      {(selectedAction === 'create' ||
-        ((selectedAction === 'update' ||  selectedAction === "delete")  && selectedSpecies)) && (
-        <div className= "module-form-card">
+      {(selectedAction === "create" ||
+        ((selectedAction === "update" || selectedAction === "delete") &&
+          selectedSpecies)) && (
+        <div className="module-form-card">
           <h3 className="module-form-title">
             {selectedAction.toUpperCase()} FORM
           </h3>
 
-        <SpeciesForm
-          formData={formData}
-          handleChange={handleChange}
-          onSubmit={() => handleSubmit(formData)}
-          action={selectedAction}
-          readOnly={selectedAction === "delete"}
-        />
-      </div>
+          <SpeciesForm
+            formData={formData}
+            handleChange={handleChange}
+            onSubmit={() => handleSubmit(formData)}
+            action={selectedAction}
+            readOnly={selectedAction === "delete"}
+          />
+        </div>
       )}
-
     </div> // Closes the main outer container div
-   )}; // Closes the return statement cleanly
+  );
+}; // Closes the return statement cleanly
 
 export default Species;

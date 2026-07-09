@@ -1,31 +1,30 @@
 // Person.js - Reusable person data structure and form component
 
 const Person = {
-  firstName: '',
-  lastName: '',
-  address: '',
-  email: '',
-  phone: '',
-  notes: '',
+  firstName: "",
+  lastName: "",
+  address: "",
+  email: "",
+  phone: "",
+  notes: "",
 };
 export default Person;
 
 function PersonModule({ role, action }) {
   if (!role) return null;
 
-
   const renderMessage = () => {
     switch (action) {
-      case 'create':
+      case "create":
         return `Add new ${role.toLowerCase()}`;
-      case 'read':
+      case "read":
         return `View ${role.toLowerCase()} records`;
-      case 'update':
+      case "update":
         return `Update selected ${role.toLowerCase()}`;
-      case 'delete':
+      case "delete":
         return `Delete selected ${role.toLowerCase()}`;
       default:
-        return 'Please select an action';
+        return "Please select an action";
     }
   };
 
@@ -66,13 +65,12 @@ function PersonModule({ role, action }) {
           <textarea name="notes" />
         </label>
         <br />
-        {action === 'create' && <button type="submit">Submit</button>}
-        {action === 'update' && <button type="submit">Update</button>}
-        {action === 'delete' && <button type="submit">Confirm Delete</button>}
+        {action === "create" && <button type="submit">Submit</button>}
+        {action === "update" && <button type="submit">Update</button>}
+        {action === "delete" && <button type="submit">Confirm Delete</button>}
       </form>
     </div>
   );
 }
 
-export { default as PersonModule } from './Person';
-
+export { default as PersonModule } from "./Person";

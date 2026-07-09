@@ -5,11 +5,11 @@ const LocationForm = ({
   handleChange,
   onSubmit,
   firstFieldRef,
-  action = 'Submit',
+  action = "Submit",
   readOnly = false,
 }) => {
   // 1. Define the fields array to match LocationModel keys
-  const fields = ['name', 'notes'];
+  const fields = ["name", "notes"];
 
   // 2. Helper to capitalize labels cleanly on screen
   const formatLabel = (text) => {
@@ -18,14 +18,15 @@ const LocationForm = ({
 
   return (
     <form onSubmit={(e) => e.preventDefault()} autoComplete="off">
-    {/* DYNAMIC LOOP: Generates inputs automatically */}
+      {/* DYNAMIC LOOP: Generates inputs automatically */}
       {fields.map((field, index) => (
         <div className="form-field-group" key={field}>
           <label htmlFor={field}>
             {/* Custom display tweak: show 'Location' instead of 'Name' for the first field */}
-            {field === 'name' ? 'Location' : formatLabel(field)}:
+            {field === "name" ? "Location" : formatLabel(field)}:
           </label>
-          <input className="form-field-group-input"
+          <input
+            className="form-field-group-input"
             id={field}
             name={field}
             type="text"
@@ -33,14 +34,18 @@ const LocationForm = ({
             onChange={handleChange}
             readOnly={readOnly}
             ref={index === 0 ? firstFieldRef : null} // Dynamically attaches ref to the first field
-            required={field === 'name'} // Makes the location name mandatory
+            required={field === "name"} // Makes the location name mandatory
           />
         </div>
       ))}
 
       {/* Centered Action Button Row */}
       <div className="form-action-button-row">
-        <button type="button" onClick={() => onSubmit()} className="form-action-submit-btn">
+        <button
+          type="button"
+          onClick={() => onSubmit()}
+          className="form-action-submit-btn"
+        >
           {action.toUpperCase()}
         </button>
       </div>

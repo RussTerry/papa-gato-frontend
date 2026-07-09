@@ -1,6 +1,13 @@
 // SelectList.js
 
-const SelectList = ({ items, onSelect, labelFn, selectedAction, role = "items", onAction }) => {
+const SelectList = ({
+  items,
+  onSelect,
+  labelFn,
+  selectedAction,
+  role = "items",
+  onAction,
+}) => {
   if (!items || items.length === 0) {
     return <p>No {role} available.</p>;
   }
@@ -12,8 +19,11 @@ const SelectList = ({ items, onSelect, labelFn, selectedAction, role = "items", 
         // className to apply alternating background stripes
         <li key={item.id} className="custom-select-list-item">
           <span>{labelFn(item)}</span>
-          {(selectedAction === 'update' || selectedAction === 'delete') && (
-             <button className="custom-select-list-button" onClick={() => onSelect(item.id)}>
+          {(selectedAction === "update" || selectedAction === "delete") && (
+            <button
+              className="custom-select-list-button"
+              onClick={() => onSelect(item.id)}
+            >
               {selectedAction}
             </button>
           )}

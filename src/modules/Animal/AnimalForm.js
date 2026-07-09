@@ -6,10 +6,20 @@ const AnimalForm = ({
   onSubmit,
   firstFieldRef,
   species = [], // Defaults to empty array to prevent map errors
-  action = 'Submit',
+  action = "Submit",
   readOnly = false,
 }) => {
-  const fields = ['name', 'speciesName', 'breed', 'age', 'weight', 'gender', 'color', 'description', 'notes'];
+  const fields = [
+    "name",
+    "speciesName",
+    "breed",
+    "age",
+    "weight",
+    "gender",
+    "color",
+    "description",
+    "notes",
+  ];
 
   const formatLabel = (text) => {
     const result = text.replace(/([A-Z])/g, " $1");
@@ -22,12 +32,13 @@ const AnimalForm = ({
         return (
           <div className="form-field-group" key={field}>
             <label htmlFor={field}>
-              {field === 'speciesName' ? 'Species Name' : formatLabel(field)}:
+              {field === "speciesName" ? "Species Name" : formatLabel(field)}:
             </label>
 
-            {field === 'notes' ? (
+            {field === "notes" ? (
               /* Notes textarea field */
-              <textarea className="form-field-grouptextarea"
+              <textarea
+                className="form-field-grouptextarea"
                 id={field}
                 name={field}
                 rows="4"
@@ -36,9 +47,10 @@ const AnimalForm = ({
                 readOnly={readOnly}
                 disabled={readOnly}
               />
-            ) : field === 'speciesName' ? (
+            ) : field === "speciesName" ? (
               /* Dropdown Select menu for Species validation */
-              <select className="form-field-group-select"
+              <select
+                className="form-field-group-select"
                 id={field}
                 name={field}
                 value={formData[field] || ""}
@@ -53,9 +65,10 @@ const AnimalForm = ({
                   </option>
                 ))}
               </select>
-            ) : field === 'gender' ? (
+            ) : field === "gender" ? (
               /* NEW ADDITION: Dropdown Select menu for Gender */
-              <select className="form-field-group-select"
+              <select
+                className="form-field-group-select"
                 id={field}
                 name={field}
                 value={formData[field] || ""}
@@ -69,27 +82,29 @@ const AnimalForm = ({
               </select>
             ) : (
               /* Standard inputs for all remaining text/number fields */
-              <input cllassName="form-field-group-input"
-                ref={(index === 0 && firstFieldRef) ? firstFieldRef : undefined}
+              <input
+                cllassName="form-field-group-input"
+                ref={index === 0 && firstFieldRef ? firstFieldRef : undefined}
                 id={field}
                 name={field}
-                type={field === 'age' || field === 'weight' ? 'number' : 'text'}
+                type={field === "age" || field === "weight" ? "number" : "text"}
                 value={formData[field] || ""}
                 onChange={handleChange}
                 readOnly={readOnly}
                 disabled={readOnly}
               />
-            )
-            }
+            )}
           </div>
         );
       })}
 
       {/* Form Submission Button Block */}
       <div className="form-action-button-row">
-        <button 
-          type="button" 
-          onClick={() => onSubmit()} className="form-action-submit-btn">
+        <button
+          type="button"
+          onClick={() => onSubmit()}
+          className="form-action-submit-btn"
+        >
           {action.toUpperCase()}
         </button>
       </div>
