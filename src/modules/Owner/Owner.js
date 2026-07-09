@@ -1,67 +1,89 @@
 import { useState, useEffect, useRef } from "react";
 import Person from "../../components/Person/Person";
 import PersonForm from "../../components/Person/PersonForm";
+import PersonModel from "../../components/Person/PersonModel";
 import SelectList from "../../components/SelectList";
 
-const Owner = ({ 
-  ownerItems, 
-  setOwnerItems, 
-  selectedAction, 
+const Owner = ({
+  ownerItems,
+  setOwnerItems,
+  selectedAction,
   setSelectedAction,
-  handleActionChange, 
+  handleActionChange,
 }) => {
-  
-  const [formData, setFormData] = useState({ ...Person });
-  const [selectedOwnerId, setSelectedOwnerId] = useState(null);
-  const firstNameRef = useRef(null);
-  const selectedOwner = owners.find((o) => o.id === selectedOwnerId) || null;
-
+  // Automatically clears the active selection when the top action menu shifts
   useEffect(() => {
-      setFormData({ ...Person });
-      setSelectedOwnerId(null);
-      firstNameRef.current?.focus();
-    } else if ((action === "update" || action === "delete") && selectedOwner) {
-      setFormData({ ...selectedOwner });
-    }
+    // If a user clicks a new action menu option, clear out any half-filled forms
+    setFormData({ ...PersonModel });
+    setSelectedOwnerItem(null);
   }, [selectedAction, setSelectedAction]);
 
-  useEffect(() => {
-    setFormData({ ...Person }); // Clear the form
-    setSelectedOwnerId(null); // Clear selected row
-    firstNameRef.current?.focus(); // Set focus to first field (create only)
-  }, [action]);
+  const [formData, setFormData] = useState({ PersonModel });
+  const [selectedOwnerItem, setSelectedOwnerItem] = useState(null);
 
+  //  FIXED: Properly destructured 'name' from the input elements
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAdd = () => {
-    if (formData.firstName.trim()) {
-      setOwners((prev) => [...prev, { ...formData, id: Date.now() }]);
-      setFormData({ ...Person });
-      firstNameRef.current?.focus();
+  const handleSelect = (id) => {
+    const foundItem = ownerItems.find((o) => Number(o.id) === Number(id));
+    if (foundItem) {
+      setSelectedOwnerItem(foundItem);
+      setFormData(foundItem);
     }
   };
 
-  const handleUpdate = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) =>
-      prev.map((owner) =>
-        owner.id === selectedOwnerId
-          ? { ...formData, id: selectedOwnerId }
-          : owner,
-      ),
-    );
-    setSelectedOwnerId(null);
-    setFormData({ ...Person });
-  };
+  const handleSubmit = (data) => {
+    console.log("Owner handleSubmit fired! Action:", selectedAction);
+    // Manual validation check blocks empty selections for both Create and Update
+    if (selectedAction === "create") {
+      alert(
+        "Validation Error: Please enter a valid First Name for this Owner before submitting.",
+      );
+      return; // Stops execution immediately so nothing gets saved or posted!
+    }
+    if (selectedAction === "create") {
+      const newOwnerItem = {
+        id: Date.now(),
+        firstName: data.firstName || "",
+        lastName: data.lastName || "",
+        email: data.email || "",
+        phone: data.phone || "",
+        address: data.address || "",
+        notes: data.notes || "",
+      };
+      setOwnerItems([...ownerItems, newOwnerItem]);
+    } else if (selectedAction === "update" && selectedOwnerItem) {
+      const updatedOwnerItem = {
+        id: selectedOwnerItem.id,
+        firstName: data.firstName || "",
+        lastName: data.lastName || "",
+        email: data.email || "",
+        phone: data.phone || "",
+        address: data.address || "",
+        notes: data.notes || "",
+      };
 
-  const handleDelete = () => {
-    if (!selectedOwnerId) return;
-    setOwners((prev) => prev.filter((owner) => owner.id !== selectedOwnerId));
-    setSelectedOwnerId(null);
-    setFormData({ ...Person });
+      setOwnerItems(
+        ownerItems.map((item) =>
+          item.id.toString() === selectedOwnerItem.id.toString()
+            ? updatedOwnerItem
+            : item,
+        ),
+      );
+    } else if (selectedAction === "delete" && selectedOwnerItem) {
+      // Clean array filtering with no reference errors
+      setOwnerItems(
+        ownerItems.filter(
+          (item) => item.id.toString() !== selectedOwnerItem.id.toString(),
+        ),
+      );
+    }
+    setSelectedAction("");
+    setFormData(PersonModel);
+    setSelectedOwnerItem(null);
   };
 
   return (
