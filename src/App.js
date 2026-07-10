@@ -103,6 +103,37 @@ function App() {
     { id: 2, name: "Cabinet 4", notes: "Medical stock" },
   ]);
 
+  // Global Owner State
+  const [ownerItems, setOwnerItems] = useState([
+    {
+      id: 1,
+      firstName: "John",
+      lastName: "Doe",
+      email: "John.Doe@example.com",
+      phone: "555-123-4567",
+      address: "123 Main St, Anytown, USA",
+      notes: "Prefers email contact.",
+    },
+    {
+      id: 2,
+      firstName: "Jane",
+      lastName: "Smith",
+      email: "Jane.Smith@example.com",
+      phone: "555-987-6543",
+      address: "456 Oak Ave, Somewhere, USA",
+      notes: "Prefers phone contact.",
+    },
+    {
+      id: 3,
+      firstName: "Alice",
+      lastName: "Johnson",
+      email: "Alice.Johnson@example.com",
+      phone: "555-555-5555",
+      address: "789 Pine Rd, Anytown, USA",
+      notes: "Prefers in-person contact.",
+    },
+  ]);
+
   // Global Species State
   const [speciesItems, setSpeciesItems] = useState([
     { id: 1, name: "Cat", notes: "Common household cat" },

@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import Person from "../../components/Person/Person";
+import { useState, useEffect } from "react";
 import PersonForm from "../../components/Person/PersonForm";
 import PersonModel from "../../components/Person/PersonModel";
 import SelectList from "../../components/SelectList";
@@ -87,92 +86,47 @@ const Owner = ({
   };
 
   return (
-    <div style={{ padding: "1em", maxWidth: "600px", margin: "auto" }}>
-      <h2>Owner Module</h2>
+    <div className="module-management-container">
+      <h2>Owner Management</h2>
+      <hr />
 
-      {/* CREATE */}
-      {action === "create" && (
-        <PersonForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleAdd}
-          firstFieldRef={firstNameRef}
-          action="Add"
-        />
-      )}
+      {(selectedAction === "read" ||
+        selectedAction === "update" ||
+        selectedAction === "delete") &&
+        !selectedOwnerItem && (
+          <div className="select-list-wrapper">
+            <SelectList
+              items={ownerItems}
+              onSelect={handleSelect}
+              labelFn={(sel) =>
+                `${sel.firstName} ${sel.lastName} - ${sel.address}, ${sel.email}, ${sel.phone}, ${sel.notes}`
+              }
+              selectedAction={selectedAction}
+              role="owners"
+            />
+          </div>
+        )}
 
-      {/* READ */}
-      {action === "read" && (
-        <div>
-          <h3>Owner List</h3>
-          <SelectList
-            items={owners}
-            labelFn={(owner) => `${owner.firstName} ${owner.lastName} - 
-              ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`}
-            action={action}
-          />
-        </div>
-      )}
+      {/* Controlled Module Input View Frame */}
+      {(selectedAction === "create" ||
+        ((selectedAction === "update" || selectedAction === "delete") &&
+          selectedOwnerItem)) && (
+        <div className="module-form-card">
+          <h3 className="module-form-title">
+            {selectedAction.toUpperCase()} FORM
+          </h3>
 
-      {/* UPDATE - List to select from */}
-      {action === "update" && !selectedOwnerId && (
-        <div>
-          <h3>Select an Owner to Update</h3>
-          <SelectList
-            items={owners}
-            onSelect={(id) => setSelectedOwnerId(id)}
-            labelFn={(owner) =>
-              `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`
-            }
-            action={action}
-          />
-        </div>
-      )}
-
-      {/* UPDATE - Form to update selected */}
-      {action === "update" && selectedOwnerId && (
-        <PersonForm
-          formData={formData}
-          handleChange={handleChange}
-          handleSubmit={handleUpdate}
-          firstFieldRef={firstNameRef}
-          action="Update"
-          role="Ownere"
-        />
-      )}
-
-      {/* DELETE - Select and Confirm */}
-      {action === "delete" && !selectedOwnerId && (
-        <div>
-          <h3>Select an Owner to Delete</h3>
-          <SelectList
-            items={owners}
-            onSelect={(id) => setSelectedOwnerId(id)}
-            labelFn={(owner) =>
-              `${owner.firstName} ${owner.lastName} - ${owner.address}, ${owner.email}, ${owner.phone}, ${owner.notes}`
-            }
-            action={action}
-            firstFieldRef={firstNameRef}
-          />
-        </div>
-      )}
-
-      {action === "delete" && selectedOwnerId && (
-        <div>
           <PersonForm
             formData={formData}
-            handleChange={() => {}}
-            handleSubmit={handleDelete}
-            firstFieldRef={firstNameRef}
-            action="Confirm Delete"
-            readOnly={true}
+            handleChange={handleChange}
+            onSubmit={handleSubmit(formData)}
+            action={selectedAction}
+            readOnly={selectedAction === "delete"}
           />
-          <p>Are you sure you want to delete this owner?</p>
-          <button onClick={() => handleDelete()}>Delete</button>
         </div>
       )}
-    </div>
+    </div> // Closes the main container div
   );
-};
+}; // Closes the return statement cleanly
 
 export default Owner;
