@@ -30,6 +30,16 @@ function RoleMenu({ onSelectionChange = () => {} }) {
       >
         Clinic
       </button>
+
+      <button
+        className={`rolebutton ${selectedRole === "Donor" ? "selected" : ""}`}
+        name="role"
+        value="Donor"
+        onClick={handleOptionChange}
+      >
+        Donor
+      </button>
+
       <button
         className={`rolebutton ${selectedRole === "Inventory" ? "selected" : ""}`}
         name="role"
@@ -46,8 +56,9 @@ function RoleMenu({ onSelectionChange = () => {} }) {
       >
         Location
       </button>
+
       <button
-        className={`rolebutton ${selectedRole === "O" ? "selected" : ""}`}
+        className={`rolebutton ${selectedRole === "Owner" ? "selected" : ""}`}
         name="role"
         value="Owner"
         onClick={handleOptionChange}

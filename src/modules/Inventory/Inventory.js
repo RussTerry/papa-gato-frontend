@@ -9,10 +9,10 @@ import SelectList from "../../components/SelectList";
 const Inventory = ({
   inventoryItems,
   setInventoryItems,
-  locations,
   handleActionChange,
   selectedAction,
   setSelectedAction,
+  locations,
 }) => {
   const [formData, setFormData] = useState(InventoryModel);
   const [selectedInventoryItem, setSelectedInventoryItem] = useState(null);

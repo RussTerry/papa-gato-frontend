@@ -95,7 +95,7 @@ const Location = ({
           selectedLocation)) && (
         <div className="module-form-card">
           <h3 className="module-form-title">
-            {selectedAction.toUpperCase()} FORM
+            {selectedAction.toUpperCase()} LOCATION ITEM
           </h3>
 
           <LocationForm

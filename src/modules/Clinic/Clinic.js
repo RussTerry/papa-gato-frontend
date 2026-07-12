@@ -9,9 +9,9 @@ import ClinicModel from "../../modules/Clinic/ClinicModel";
 const Clinic = ({
   clinicItems,
   setClinicItems,
+  handleActionChange,
   selectedAction,
   setSelectedAction,
-  handleActionChange,
 }) => {
   // Automatically clears the active selection when the top action menu shifts
   useEffect(() => {

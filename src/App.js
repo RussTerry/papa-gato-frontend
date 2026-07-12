@@ -6,6 +6,7 @@ import CrudMenu from "./components/CrudMenu";
 import RoleMenu from "./components/RoleMenu";
 import Animal from "./modules/Animal/Animal";
 import Clinic from "./modules/Clinic/Clinic";
+import Donor from "./modules/Donor/Donor";
 import Inventory from "./modules/Inventory/Inventory";
 import Location from "./modules/Location/Location";
 import Owner from "./modules/Owner/Owner";
@@ -71,6 +72,37 @@ function App() {
       location: "School",
       date: "2026-03-22",
       notes: "Early setup needed",
+    },
+  ]);
+
+  // Global Donor State
+  const [donorItems, setDonorItems] = useState([
+    {
+      id: 1,
+      firstName: "Fred",
+      lastName: "Anderson",
+      email: "Fred.Anderson@example.com",
+      phone: "555-235-4567",
+      address: "365 Main St, Anytown, USA",
+      notes: "Prefers email contact.",
+    },
+    {
+      id: 2,
+      firstName: "Jane",
+      lastName: "Wilson",
+      email: "Jane.Wilson@example.com",
+      phone: "555-777-6543",
+      address: "533 Oak Ave, Somewhere, USA",
+      notes: "Prefers phone contact.",
+    },
+    {
+      id: 3,
+      firstName: "Emma",
+      lastName: "Blaine",
+      email: "Emma.Blaine@example.com",
+      phone: "2345 8877",
+      address: "789 Pine Rd, Anytown, USA",
+      notes: "Prefers in-person contact.",
     },
   ]);
 
@@ -166,12 +198,12 @@ function App() {
         <Animal
           animalItems={animalItems}
           setAnimalItems={setAnimalItems}
-          species={
-            speciesItems
-          } /* Maps your species array down to the module */
           handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
+          species={
+            speciesItems
+          } /* Maps your species array down to the module */
         />
       )}
       {/* RENDER HOOK: Clinic Module */}
@@ -179,9 +211,19 @@ function App() {
         <Clinic
           clinicItems={clinicItems}
           setClinicItems={setClinicItems}
+          handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange}
+        />
+      )}
+
+      {/* RENDER HOOK: Donor Module */}
+      {selectedRole?.toLowerCase() === "donor" && selectedAction && (
+        <Donor
+          donorItems={donorItems}
+          setDonorItems={setDonorItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
         />
       )}
 
@@ -190,10 +232,10 @@ function App() {
         <Inventory
           inventoryItems={inventoryItems}
           setInventoryItems={setInventoryItems}
-          locations={locations}
+          handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange}
+          locations={locations}
         />
       )}
 
@@ -202,9 +244,9 @@ function App() {
         <Location
           locations={locations}
           setLocations={setLocations}
+          handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange}
         />
       )}
 
@@ -215,7 +257,6 @@ function App() {
           setOwnerItems={setOwnerItems}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange}
         />
       )}
 
@@ -224,9 +265,9 @@ function App() {
         <Species
           speciesItems={speciesItems}
           setSpeciesItems={setSpeciesItems}
+          handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          handleActionChange={handleActionChange}
         />
       )}
     </div>

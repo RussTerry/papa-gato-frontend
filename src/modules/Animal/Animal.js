@@ -9,10 +9,10 @@ import AnimalModel from "../../modules/Animal/AnimalModel";
 const Animal = ({
   animalItems,
   setAnimalItems,
-  species,
   handleActionChange,
   selectedAction,
   setSelectedAction,
+  species,
 }) => {
   const [formData, setFormData] = useState(AnimalModel);
   const [selectedAnimalItem, setSelectedAnimalItem] = useState(null);

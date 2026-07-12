@@ -9,9 +9,9 @@ import SpeciesModel from "../../modules/Species/SpeciesModel";
 const Species = ({
   speciesItems,
   setSpeciesItems,
+  handleActionChange,
   selectedAction,
   setSelectedAction,
-  handleActionChange,
 }) => {
   useEffect(() => {
     setFormData(SpeciesModel);
@@ -97,7 +97,7 @@ const Species = ({
           selectedSpecies)) && (
         <div className="module-form-card">
           <h3 className="module-form-title">
-            {selectedAction.toUpperCase()} FORM
+            {selectedAction.toUpperCase()} SPECIES ITEM
           </h3>
 
           <SpeciesForm
