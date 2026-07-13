@@ -41,6 +41,15 @@ function RoleMenu({ onSelectionChange = () => {} }) {
       </button>
 
       <button
+        className={`rolebutton ${selectedRole === "Foster" ? "selected" : ""}`}
+        name="role"
+        value="Foster"
+        onClick={handleOptionChange}
+      >
+        Foster
+      </button>
+
+      <button
         className={`rolebutton ${selectedRole === "Inventory" ? "selected" : ""}`}
         name="role"
         value="Inventory"

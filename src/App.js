@@ -7,6 +7,7 @@ import RoleMenu from "./components/RoleMenu";
 import Animal from "./modules/Animal/Animal";
 import Clinic from "./modules/Clinic/Clinic";
 import Donor from "./modules/Donor/Donor";
+import Foster from "./modules/Foster/Foster";
 import Inventory from "./modules/Inventory/Inventory";
 import Location from "./modules/Location/Location";
 import Owner from "./modules/Owner/Owner";
@@ -102,6 +103,37 @@ function App() {
       email: "Emma.Blaine@example.com",
       phone: "2345 8877",
       address: "789 Pine Rd, Anytown, USA",
+      notes: "Prefers in-person contact.",
+    },
+  ]);
+
+  // Global Foster State
+  const [fosterItems, setFosterItems] = useState([
+    {
+      id: 1,
+      firstName: "Mary",
+      lastName: "Travers",
+      email: "Mary.Travers@example.com",
+      phone: "3323-5611",
+      address: "Bluff",
+      notes: "Prefers email contact.",
+    },
+    {
+      id: 2,
+      firstName: "Janet",
+      lastName: "Martin",
+      email: "Janet.Martin@example.com",
+      phone: "555-212-5491",
+      address: "Red Frog",
+      notes: "Prefers phone contact.",
+    },
+    {
+      id: 3,
+      firstName: "Mike",
+      lastName: "Baker",
+      email: "Mike.Baker@example.com",
+      phone: "2345 7788",
+      address: "Darklands",
       notes: "Prefers in-person contact.",
     },
   ]);
@@ -222,6 +254,16 @@ function App() {
         <Donor
           donorItems={donorItems}
           setDonorItems={setDonorItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
+      )}
+
+      {/* RENDER HOOK: Foster Module */}
+      {selectedRole?.toLowerCase() === "foster" && selectedAction && (
+        <Foster
+          fosterItems={fosterItems}
+          setFosterItems={setFosterItems}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
         />

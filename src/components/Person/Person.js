@@ -15,9 +15,14 @@ const Person = ({
   const [selectedItem, setSelectedItem] = useState(null);
 
   // Clear or reset form when switching sub-menus
+  // Inside Person.js - Update this hook
   useEffect(() => {
-    setFormData({ ...PersonModel });
-    setSelectedItem(null);
+    // ONLY reset the form if we are starting a brand new 'create' action
+    if (selectedAction === "create" || selectedAction === "") {
+      setFormData({ ...PersonModel });
+      setSelectedItem(null);
+    }
+    // If the action is update or delete, DO NOT touch formData or selectedItem here!
   }, [selectedAction]);
 
   const handleChange = (e) => {
@@ -34,28 +39,26 @@ const Person = ({
   };
 
   const handleSubmit = (data) => {
+    // Move ...data FIRST, so that our generated id OVERWRITES the null value!
     if (selectedAction === "create") {
-      const newItem = { id: Date.now(), ...data };
+      const newItem = { ...data, id: Date.now() }; // ◄ FIXED ORDER
       setItems([...items, newItem]);
-    } else if (selectedAction === "update" && selectedItem) {
+    } else if (selectedAction === "update" && data?.id) {
       setItems(
         items.map((item) =>
-          item.id.toString() === selectedItem.id.toString()
-            ? { ...data, id: selectedItem.id }
+          String(item?.id) === String(data.id)
+            ? { ...data } // data already has the correct id inside it
             : item,
         ),
       );
-    } else if (selectedAction === "delete" && selectedItem) {
-      setItems(
-        items.filter(
-          (item) => item.id.toString() !== selectedItem.id.toString(),
-        ),
-      );
+    } else if (selectedAction === "delete" && data?.id) {
+      setItems(items.filter((item) => String(item?.id) !== String(data.id)));
     }
 
-    // UI clean up resets
+    // Cleanup resets
+
     setSelectedAction("");
-    setFormData(PersonModel);
+    setFormData({ ...PersonModel });
     setSelectedItem(null);
   };
 
