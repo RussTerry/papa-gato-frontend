@@ -12,6 +12,8 @@ import Inventory from "./modules/Inventory/Inventory";
 import Location from "./modules/Location/Location";
 import Owner from "./modules/Owner/Owner";
 import Species from "./modules/Species/Species";
+import Staff from "./modules/Staff/Staff";
+import Vet from "./modules/Vet/Vet";
 import "./App.css";
 
 function App() {
@@ -205,6 +207,68 @@ function App() {
     { id: 3, name: "Rabbit", notes: "Small domestic lagomorphs" },
   ]);
 
+  // Global Staff State
+  const [staffItems, setStaffItems] = useState([
+    {
+      id: 1,
+      firstName: "John",
+      lastName: "Doe",
+      email: "John.Doe@example.com",
+      phone: "555-123-4567",
+      address: "123 Main St, Anytown, USA",
+      notes: "Prefers email contact.",
+    },
+    {
+      id: 2,
+      firstName: "Jane",
+      lastName: "Smith",
+      email: "Jane.Smith@example.com",
+      phone: "555-987-6543",
+      address: "456 Oak Ave, Somewhere, USA",
+      notes: "Prefers phone contact.",
+    },
+    {
+      id: 3,
+      firstName: "Alice",
+      lastName: "Johnson",
+      email: "Alice.Johnson@example.com",
+      phone: "555-555-5555",
+      address: "789 Pine Rd, Anytown, USA",
+      notes: "Prefers in-person contact.",
+    },
+  ]);
+
+  // Global Vet State
+  const [vetItems, setVetItems] = useState([
+    {
+      id: 1,
+      firstName: "Fred",
+      lastName: "Anderson",
+      email: "Fred.Anderson@example.com",
+      phone: "555-235-4567",
+      address: "365 Main St, Anytown, USA",
+      notes: "Prefers email contact.",
+    },
+    {
+      id: 2,
+      firstName: "Jane",
+      lastName: "Wilson",
+      email: "Jane.Wilson@example.com",
+      phone: "555-777-6543",
+      address: "533 Oak Ave, Somewhere, USA",
+      notes: "Prefers phone contact.",
+    },
+    {
+      id: 3,
+      firstName: "Emma",
+      lastName: "Blaine",
+      email: "Emma.Blaine@example.com",
+      phone: "2345 8877",
+      address: "789 Pine Rd, Anytown, USA",
+      notes: "Prefers in-person contact.",
+    },
+  ]);
+
   const handleActionChange = (newAction) => {
     setSelectedAction(newAction);
   };
@@ -308,6 +372,46 @@ function App() {
           speciesItems={speciesItems}
           setSpeciesItems={setSpeciesItems}
           handleActionChange={handleActionChange}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
+      )}
+
+      {/* RENDER HOOK: Staff Module */}
+      {selectedRole?.toLowerCase() === "staff" && selectedAction && (
+        <Staff
+          staffItems={staffItems}
+          setStaffItems={setStaffItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
+      )}
+
+      {/* RENDER HOOK: Donor Module */}
+      {selectedRole?.toLowerCase() === "donor" && selectedAction && (
+        <Donor
+          donorItems={donorItems}
+          setDonorItems={setDonorItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
+      )}
+
+      {/* RENDER HOOK: Donor Module */}
+      {selectedRole?.toLowerCase() === "donor" && selectedAction && (
+        <Donor
+          donorItems={donorItems}
+          setDonorItems={setDonorItems}
+          selectedAction={selectedAction}
+          setSelectedAction={setSelectedAction}
+        />
+      )}
+
+      {/* RENDER HOOK: Vet Module */}
+      {selectedRole?.toLowerCase() === "vet" && selectedAction && (
+        <Vet
+          vetItems={vetItems}
+          setVetItems={setVetItems}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
         />

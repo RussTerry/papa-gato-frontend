@@ -4,8 +4,8 @@ DONE Put title comment in all css files
 DONE Species and location - delete form not readonly
 DONE Clone Donor
 DONE Clone Foster
-Clone Staff
-Clone Vet
+DONE Clone Staff
+DONE Clone Vet
 Add Owner to Animal
 Format list display for each module
 Create Treatment modules

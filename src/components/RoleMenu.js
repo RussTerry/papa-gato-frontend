@@ -57,6 +57,7 @@ function RoleMenu({ onSelectionChange = () => {} }) {
       >
         Inventory
       </button>
+
       <button
         className={`rolebutton ${selectedRole === "Location" ? "selected" : ""}`}
         name="role"
@@ -82,6 +83,24 @@ function RoleMenu({ onSelectionChange = () => {} }) {
         onClick={handleOptionChange}
       >
         Species
+      </button>
+
+      <button
+        className={`rolebutton ${selectedRole === "Staff" ? "selected" : ""}`}
+        name="role"
+        value="Staff"
+        onClick={handleOptionChange}
+      >
+        Staff
+      </button>
+
+      <button
+        className={`rolebutton ${selectedRole === "Vet" ? "selected" : ""}`}
+        name="role"
+        value="Vet"
+        onClick={handleOptionChange}
+      >
+        Vet
       </button>
     </div>
   );
