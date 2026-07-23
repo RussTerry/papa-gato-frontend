@@ -26,8 +26,9 @@ function App() {
   const [animalItems, setAnimalItems] = useState([
     {
       id: 101,
+      ownerId: 1,
       name: "Luna",
-      speciesName: "Cat",
+      speciesId: 1,
       breed: "Siamese",
       age: 3,
       weight: 9,
@@ -38,8 +39,9 @@ function App() {
     },
     {
       id: 102,
+      ownerId: 2,
       name: "Rocky",
-      speciesName: "Dog",
+      speciesId: 2,
       breed: "Boxer",
       age: 5,
       weight: 65,
@@ -51,7 +53,8 @@ function App() {
     {
       id: 103,
       name: "Oliver",
-      speciesName: "Rabbit",
+      ownerId: 3,
+      speciesId: 3,
       breed: "Holland Lop",
       age: 1,
       weight: 4,
@@ -164,7 +167,7 @@ function App() {
     },
   ]);
 
-  const [locations, setLocations] = useState([
+  const [locationItems, setLocationItems] = useState([
     { id: 1, name: "Desk Drawer", notes: "Office supplies" },
     { id: 2, name: "Cabinet 4", notes: "Medical stock" },
   ]);
@@ -294,12 +297,15 @@ function App() {
         <Animal
           animalItems={animalItems}
           setAnimalItems={setAnimalItems}
+          ownerItems={
+            ownerItems
+          } /* Maps your owners array down to the module */
+          speciesItems={
+            speciesItems
+          } /* Maps your species array down to the module */
           handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          species={
-            speciesItems
-          } /* Maps your species array down to the module */
         />
       )}
       {/* RENDER HOOK: Clinic Module */}
@@ -341,15 +347,15 @@ function App() {
           handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
-          locations={locations}
+          locationItems={locationItems}
         />
       )}
 
       {/* RENDER HOOK: Location Module */}
       {selectedRole?.toLowerCase() === "location" && selectedAction && (
         <Location
-          locations={locations}
-          setLocations={setLocations}
+          locationItems={locationItems}
+          setLocationItems={setLocationItems}
           handleActionChange={handleActionChange}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
@@ -382,26 +388,6 @@ function App() {
         <Staff
           staffItems={staffItems}
           setStaffItems={setStaffItems}
-          selectedAction={selectedAction}
-          setSelectedAction={setSelectedAction}
-        />
-      )}
-
-      {/* RENDER HOOK: Donor Module */}
-      {selectedRole?.toLowerCase() === "donor" && selectedAction && (
-        <Donor
-          donorItems={donorItems}
-          setDonorItems={setDonorItems}
-          selectedAction={selectedAction}
-          setSelectedAction={setSelectedAction}
-        />
-      )}
-
-      {/* RENDER HOOK: Donor Module */}
-      {selectedRole?.toLowerCase() === "donor" && selectedAction && (
-        <Donor
-          donorItems={donorItems}
-          setDonorItems={setDonorItems}
           selectedAction={selectedAction}
           setSelectedAction={setSelectedAction}
         />

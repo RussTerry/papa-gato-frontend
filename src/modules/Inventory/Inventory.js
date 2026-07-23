@@ -12,7 +12,7 @@ const Inventory = ({
   handleActionChange,
   selectedAction,
   setSelectedAction,
-  locations,
+  locationItems,
 }) => {
   const [formData, setFormData] = useState(InventoryModel);
   const [selectedInventoryItem, setSelectedInventoryItem] = useState(null);
@@ -147,7 +147,7 @@ const Inventory = ({
             formData={formData}
             handleChange={handleChange}
             onSubmit={() => handleSubmit(formData)}
-            locations={locations}
+            locationItems={locationItems}
             action={selectedAction}
             readOnly={selectedAction === "delete"}
           />

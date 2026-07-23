@@ -1,0 +1,17 @@
+Treatment create:
+    Standard crud menu. Create displays sub-menu (intake, pre-op, surg-prep, surgery, post-op and recovery).
+    Intake creates instances (owner, animal, clinic) and outputs instances to pre-op.
+    Pre-op selects from list of intake instances and enterd its data. Instance is then sent to swurg-prep.
+    Surg-prep selects from list of pre-op instances and enters prep details. Instance is sent to surgery.
+    Surgery selects from list of surg-prep instances and enters its data. Instance is sent to post-op.
+    Post-op selects from a list of surgery instances ans fills in its data. Instance is sent to recovery.
+    Recovery selects from a list of post-op instances and fills in its data. Instance is saved and closed.
+
+Treatment list:
+    Asks for clinic date and displays list of treatments for that clinic.
+
+Treatment update:
+    Asks for clinic date and treatments for that date are displayed. Update follows as normal.
+
+Treatment delete:
+        Asks for clinic date and treatments for that date are displayed. Delete follows as normal.

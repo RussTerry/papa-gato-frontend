@@ -7,8 +7,8 @@ import SelectList from "../../components/SelectList";
 //import './Location.css';
 
 const Location = ({
-  locations,
-  setLocations,
+  locationItems,
+  setLocationItems,
   handleActionChange,
   selectedAction,
   setSelectedAction,
@@ -30,7 +30,7 @@ const Location = ({
   };
 
   const handleSelect = (id) => {
-    const loc = locations.find((l) => Number(l.id) === Number(id));
+    const loc = locationItems.find((l) => Number(l.id) === Number(id));
     if (loc) {
       setSelectedLocation(loc);
       setFormData(loc);
@@ -44,21 +44,23 @@ const Location = ({
         name: data.name || "",
         notes: data.notes || "",
       };
-      setLocations([...locations, newLocation]);
+      setLocationItems([...locationItems, newLocation]);
     } else if (selectedAction === "update" && selectedLocation) {
       const updatedLocation = {
         id: selectedLocation.id,
         name: data.name || "",
         notes: data.notes || "",
       };
-      setLocations(
-        locations.map((l) =>
+      setLocationItems(
+        locationItems.map((l) =>
           Number(l.id) === Number(selectedLocation.id) ? updatedLocation : l,
         ),
       );
     } else if (selectedAction === "delete" && selectedLocation) {
-      setLocations(
-        locations.filter((l) => Number(l.id) !== Number(selectedLocation.id)),
+      setLocationItems(
+        locationItems.filter(
+          (l) => Number(l.id) !== Number(selectedLocation.id),
+        ),
       );
     }
 
@@ -80,7 +82,7 @@ const Location = ({
         !selectedLocation && (
           <div className="select-list-wrapper">
             <SelectList
-              items={locations}
+              items={locationItems}
               onSelect={handleSelect}
               labelFn={(loc) => `${loc.name} (${loc.notes || "no notes"})`}
               selectedAction={selectedAction}

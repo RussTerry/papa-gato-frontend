@@ -2,8 +2,9 @@
 
 const AnimalModel = {
   id: null, // used internally, never shown to user
+  ownerId: null, // ◄ References unique ID from Owner table
   name: "",
-  speciesName: "",
+  speciesId: null, // ◄ References unique ID from Species table
   breed: "",
   age: null,
   weight: null,

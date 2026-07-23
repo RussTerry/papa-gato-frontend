@@ -5,7 +5,7 @@ const InventoryForm = ({
   handleChange,
   onSubmit,
   firstFieldRef,
-  locations = [],
+  locationItems = [],
   action = "Submit",
   readOnly = false,
 }) => {
@@ -105,7 +105,7 @@ const InventoryForm = ({
               >
                 {/* FIXED: Keeping value="" tells the browser this option doesn't count as filled */}
                 <option value="">-- Select a Location --</option>
-                {locations.map((loc) => (
+                {locationItems.map((loc) => (
                   <option key={loc.id} value={loc.name}>
                     {loc.name}
                   </option>
